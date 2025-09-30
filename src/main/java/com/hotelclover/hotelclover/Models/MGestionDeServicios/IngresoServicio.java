@@ -1,47 +1,38 @@
 package com.hotelclover.hotelclover.Models.MGestionDeServicios;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "IngresosServicios")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class IngresoServicio {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull(message = "El ID del servicio es obligatorio")
+    @Column(name = "idServicio", nullable = false)
     private Long idServicio;
+
+    @NotNull(message = "El ID de la categoría es obligatorio")
+    @Column(name = "idCategoria", nullable = false)
     private Long idCategoria;
+
+    @NotNull(message = "El ingreso es obligatorio")
+    @PositiveOrZero(message = "El ingreso debe ser igual o mayor a 0")
+    @Column(name = "Ingresos", nullable = false)
     private Double ingresos;
-    private String periodo;
 
-    public IngresoServicio(Long idServicio, Long idCategoria, Double ingresos, String periodo) {
-        this.idServicio = idServicio;
-        this.idCategoria = idCategoria;
-        this.ingresos = ingresos;
-        this.periodo = periodo;
-    }
-
-    public Long getIdServicio() {
-        return idServicio;
-    }
-
-    public void setIdServicio(Long idServicio) {
-        this.idServicio = idServicio;
-    }
-
-    public Long getIdCategoria() {
-        return idCategoria;
-    }
-
-    public void setIdCategoria(Long idCategoria) {
-        this.idCategoria = idCategoria;
-    }
-
-    public Double getIngresos() {
-        return ingresos;
-    }
-
-    public void setIngresos(Double ingresos) {
-        this.ingresos = ingresos;
-    }
-
-    public String getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(String periodo) {
-        this.periodo = periodo;
-    }
+    @NotNull(message = "El periodo es obligatorio")
+    @Column(name = "Periodo", nullable = false)
+    private LocalDate periodo;
 }

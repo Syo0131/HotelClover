@@ -48,7 +48,7 @@ public class Tarifas {
     @NotBlank(message = "El estado es obligatorio")
     @Pattern(regexp = "activa|inactiva", message = "El estado debe ser 'activa' o 'inactiva'")
     @Column(name = "Estado", nullable = false)
-    private String estado;
+    private String estadoTarifa;
 
     @Column(name = "Fecha_creacion", nullable = false)
     private LocalDateTime fechaCreacion = LocalDateTime.now();

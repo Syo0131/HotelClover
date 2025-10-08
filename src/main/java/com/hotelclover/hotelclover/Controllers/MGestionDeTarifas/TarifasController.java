@@ -1,5 +1,5 @@
 package com.hotelclover.hotelclover.Controllers.MGestionDeTarifas;
 
-public class home {
+public class TarifasController {
     
 }

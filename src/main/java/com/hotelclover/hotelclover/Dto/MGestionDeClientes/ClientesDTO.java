@@ -1,11 +1,11 @@
-package com.hotelclover.hotelclover.Dto;
+package com.hotelclover.hotelclover.Dto.MGestionDeClientes;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class ClienteDTO {
+public class ClientesDTO {
 
     private Long idCliente;
 

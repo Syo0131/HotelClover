@@ -2,6 +2,7 @@ package com.hotelclover.hotelclover.Models.MGestionDeClientes;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,10 +10,10 @@ import java.time.LocalDate;
 import java.time.Period;
 
 @Entity
-@Table(name = "clientes") 
+@Table(name = "clientes")
 @Data
 @NoArgsConstructor
-public class Clientes {
+public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,17 +33,12 @@ public class Clientes {
     private String email;
 
     @NotBlank(message = "La contraseña es obligatoria")
-    @Pattern(
-        regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
-        message = "Debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo"
-    )
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo")
     @Column(nullable = false)
     private String contrasena;
 
-    @Pattern(
-        regexp = "\\+?[0-9]{10,15}",
-        message = "El número de teléfono debe tener entre 10 y 15 dígitos"
-    )
+    @Size(min = 10, max = 15, message = "El número debe tener entre 10 y 15 dígitos")
+    @Pattern(regexp = "\\+?[0-9]+", message = "Solo se permiten números y un '+' opcional")
     @Column(nullable = false)
     private String telefono;
 

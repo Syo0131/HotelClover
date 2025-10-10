@@ -1,6 +1,6 @@
 package com.hotelclover.hotelclover.Services.MGestionDeClientes;
 
-import com.hotelclover.hotelclover.Models.MGestionDeClientes.Clientes;
+import com.hotelclover.hotelclover.Models.MGestionDeClientes.Cliente;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,15 +13,15 @@ public class ClientesService {
     @Autowired
     private ClientesRepository clientesRepository;
 
-    public Clientes createClient(Clientes client) {
+    public Cliente createClient(Cliente client) {
         return clientesRepository.save(client);
     }
 
-    public Optional<Clientes> getClientById(Long id) {
+    public Optional<Cliente> getClientById(Long id) {
         return clientesRepository.findById(id);
     }
 
-    public Iterable<Clientes> getAllClients() {
+    public Iterable<Cliente> getAllClients() {
         return clientesRepository.findAll();
     }
 
@@ -29,7 +29,7 @@ public class ClientesService {
         clientesRepository.deleteById(id);
     }
 
-    public Clientes updateClient(Long id, Clientes updatedClient) {
+    public Cliente updateClient(Long id, Cliente updatedClient) {
         return clientesRepository.findById(id).map(client -> {
             client.setNombre(updatedClient.getNombre());
             client.setApellido(updatedClient.getApellido());

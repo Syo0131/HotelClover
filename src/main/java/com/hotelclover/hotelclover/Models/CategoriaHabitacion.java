@@ -2,8 +2,8 @@ package com.hotelclover.hotelclover.Models;
 
 import java.math.BigDecimal;
 
-import java.util.Set;        // ✅ importa Set
-import java.util.HashSet;   // ✅ si inicializas la colección
+import java.util.Set;
+import java.util.HashSet;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.ToString;
 
 
 @Entity
-@Table(name = "CategoriasHabitaciones") 
+@Table(name = "CategoriasHabitaciones")
 
 @Data
 public class CategoriaHabitacion {

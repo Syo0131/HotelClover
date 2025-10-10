@@ -36,7 +36,6 @@ public class Habitacion {
     @Column(name = "estado", nullable = false, length = 15)
     private EstadoHabitacion estado;
 
-    // Tarifa propia opcional; si es null, usarás la de la categoría en consultas
     @DecimalMin(value = "0.0", inclusive = false)
     @Digits(integer = 8, fraction = 2)
     @Column(name = "tarifa_noche", precision = 10, scale = 2)

@@ -1,0 +1,70 @@
+@import 'tailwindcss';
+@config '../tailwind.config.js';
+
+/* Custom theme configuration for Hotel Clover */
+@theme {
+  /* Background color */
+  --color-background-light: #f0f7f4;
+
+  /* Primary color palette - Caribbean Green */
+  --color-caribbean-green-50: #ebfef7;
+  --color-caribbean-green-100: #d0fbea;
+  --color-caribbean-green-200: #a5f5da;
+  --color-caribbean-green-300: #6aebc8;
+  --color-caribbean-green-400: #2fd8af;
+  --color-caribbean-green-500: #0cd5ab;
+  --color-caribbean-green-600: #009b7e;
+  --color-caribbean-green-700: #007c68;
+  --color-caribbean-green-800: #036253;
+  --color-caribbean-green-900: #045045;
+  --color-caribbean-green-950: #012d28;
+
+  /* Primary alias */
+  --color-primary: #0cd5ab;
+  --color-primary-hover: #009b7e;
+
+  /* Font family */
+  --font-family-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Custom base styles */
+body {
+  font-family: var(--font-family-display);
+  background-color: var(--color-background-light);
+}
+
+/* Control del cursor - solo mostrar cursor de texto en inputs editables */
+* {
+  cursor: default;
+  user-select: none;
+}
+
+/* Permitir cursor de texto y selección en elementos editables */
+input,
+textarea,
+[contenteditable='true'] {
+  cursor: text;
+  user-select: text;
+}
+
+/* Cursor pointer para elementos clickeables */
+a,
+button,
+[role='button'],
+label {
+  cursor: pointer;
+}
+
+/* Permitir selección de texto en elementos de lectura */
+p,
+h1,
+a,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+li {
+  user-select: text;
+}

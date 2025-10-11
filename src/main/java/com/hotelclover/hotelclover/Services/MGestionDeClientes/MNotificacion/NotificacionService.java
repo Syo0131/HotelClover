@@ -3,34 +3,28 @@ package com.hotelclover.hotelclover.Services.MGestionDeClientes.MNotificacion;
 import com.hotelclover.hotelclover.Models.MGestionDeClientes.MNotificacion.NotificacionCliente;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.MNotificacion.NotificacionRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hotelclover.hotelclover.Models.MGestionDeClientes.Cliente;
+import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class NotificacionService {
 
-        @Autowired
-    private NotificacionRepository notificacionRepository;
+    private final NotificacionRepository notificacionRepository;
 
-    public List<NotificacionCliente> getNotificationsByClient(Long clientId) {
-        return notificacionRepository.findByClientId(clientId);
+    public NotificacionCliente enviarNotificacion(Cliente cliente, String titulo, String mensaje) {
+        NotificacionCliente notificacion = new NotificacionCliente();
+        notificacion.setCliente(cliente);
+        notificacion.setTitulo(titulo);
+        notificacion.setMensaje(mensaje);
+        notificacion.setFechaEnvio(LocalDateTime.now());
+        return notificacionRepository.save(notificacion);
     }
 
-    public List<NotificacionCliente> getUnreadNotificationsByClient(Long clientId) {
-        return notificacionRepository.findByClientIdAndReadFalse(clientId);
-    }
-
-    public NotificacionCliente saveNotification(NotificacionCliente notification) {
-        return notificacionRepository.save(notification);
-    }
-
-    public Optional<NotificacionCliente> findNotificationById(Long id) {
-        return notificacionRepository.findById(id);
-    }
-
-    public void deleteNotification(Long id) {
-        notificacionRepository.deleteById(id);
+    public List<NotificacionCliente> obtenerNoLeidas(Long clienteId) {
+        return notificacionRepository.findByClienteIdAndLeidoFalse(clienteId);
     }
 }

@@ -4,62 +4,64 @@ import com.hotelclover.hotelclover.Dto.MGestionDeTarifas.TarifasDTO;
 import com.hotelclover.hotelclover.Models.MGestionDeTarifas.Tarifa;
 import com.hotelclover.hotelclover.Repositories.MGestionDeTarifas.TarifasRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class TarifasService {
 
-    private final TarifasRepository tarifasRepository;
+    private TarifasRepository tarifasRepository;
 
-    public TarifasDTO createTariff(TarifasDTO dto) {
-        Tarifa entity = new Tarifa();
-        BeanUtils.copyProperties(dto, entity);
-        Tarifa saved = tarifasRepository.save(entity);
-        TarifasDTO response = new TarifasDTO();
-        BeanUtils.copyProperties(saved, response);
-        return response;
+    public Tarifa createRate(TarifasDTO dto) {
+        Tarifa tarifa = new Tarifa();
+        tarifa.setCategoriaHabitacion(dto.getCategoriaHabitacion());
+        tarifa.setPrecio(dto.getPrecio());
+        tarifa.setMoneda(dto.getMoneda());
+        tarifa.setImpuesto(dto.getImpuesto());
+        tarifa.setNumeroNoches(dto.getNumeroNoches());
+        tarifa.setTemporada(dto.getTemporada());
+        tarifa.setEstadoTarifa(dto.getEstadoTarifa());
+        tarifa.setFechaCreacion(LocalDateTime.now());
+
+        return tarifasRepository.save(tarifa);
     }
 
-    public List<TarifasDTO> getAllTariffs() {
-        return StreamSupport.stream(tarifasRepository.findAll().spliterator(), false)
-                .map(t -> {
-                    TarifasDTO dto = new TarifasDTO();
-                    BeanUtils.copyProperties(t, dto);
-                    return dto;
-                })
-                .collect(Collectors.toList());
+    public Tarifa updateRate(Long id, TarifasDTO dto) {
+        Tarifa tarifa = tarifasRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Rate not found"));
+
+        tarifa.setCategoriaHabitacion(dto.getCategoriaHabitacion());
+        tarifa.setPrecio(dto.getPrecio());
+        tarifa.setMoneda(dto.getMoneda());
+        tarifa.setImpuesto(dto.getImpuesto());
+        tarifa.setNumeroNoches(dto.getNumeroNoches());
+        tarifa.setTemporada(dto.getTemporada());
+        tarifa.setEstadoTarifa(dto.getEstadoTarifa());
+
+        return tarifasRepository.save(tarifa);
     }
 
-    public Optional<TarifasDTO> getTariffById(Long id) {
-        return tarifasRepository.findById(id).map(t -> {
-            TarifasDTO dto = new TarifasDTO();
-            BeanUtils.copyProperties(t, dto);
-            return dto;
-        });
+    public Optional<Tarifa> getRateById(Long id) {
+        return tarifasRepository.findById(id);
     }
 
-    public Optional<TarifasDTO> updateTariff(Long id, TarifasDTO dto) {
-        return tarifasRepository.findById(id).map(existing -> {
-            BeanUtils.copyProperties(dto, existing, "idTarifa", "fechaCreacion");
-            Tarifa updated = tarifasRepository.save(existing);
-            TarifasDTO response = new TarifasDTO();
-            BeanUtils.copyProperties(updated, response);
-            return response;
-        });
+    public List<Tarifa> listByCategory(String category) {
+        return tarifasRepository.findByCategoriaHabitacion(category);
     }
 
-    public boolean deleteTariff(Long id) {
-        if (tarifasRepository.existsById(id)) {
-            tarifasRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    public List<Tarifa> listBySeason(String season) {
+        return tarifasRepository.findByTemporada(season);
+    }
+
+    public List<Tarifa> listByStatus(String status) {
+        return tarifasRepository.findByEstadoTarifa(status);
+    }
+
+    public List<Tarifa> listByNumberOfNights(Integer nights) {
+        return tarifasRepository.findByNumeroNoches(nights);
     }
 }

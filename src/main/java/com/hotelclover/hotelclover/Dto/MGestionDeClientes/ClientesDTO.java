@@ -7,8 +7,6 @@ import java.time.LocalDate;
 @Data
 public class ClientesDTO {
 
-    private Long idCliente;
-
     @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
 

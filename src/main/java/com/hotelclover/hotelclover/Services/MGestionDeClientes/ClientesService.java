@@ -3,20 +3,20 @@ package com.hotelclover.hotelclover.Services.MGestionDeClientes;
 import com.hotelclover.hotelclover.Dto.MGestionDeClientes.ClientesDTO;
 import com.hotelclover.hotelclover.Models.MGestionDeClientes.Cliente;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ClientesService {
 
-    @Autowired
-    private ClientesRepository clientesRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final ClientesRepository clientesRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Cliente registerClient(ClientesDTO dto) {
         if (clientesRepository.existsByEmail(dto.getEmail())) {

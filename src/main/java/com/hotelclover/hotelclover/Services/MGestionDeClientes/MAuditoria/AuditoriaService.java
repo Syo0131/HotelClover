@@ -3,6 +3,9 @@ package com.hotelclover.hotelclover.Services.MGestionDeClientes.MAuditoria;
 import com.hotelclover.hotelclover.Models.MGestionDeClientes.MAuditoria.AuditoriaCliente;
 import com.hotelclover.hotelclover.Models.MGestionDeClientes.Cliente;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.MAuditoria.AuditoriaRepository;
+
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +22,7 @@ public class AuditoriaService {
         auditoria.setCliente(cliente);
         auditoria.setAccion(accion);
         auditoria.setResultado(resultado);
+        auditoria.setFechaHora(LocalDateTime.now());
         auditoriaRepo.save(auditoria);
     }
 }

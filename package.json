@@ -1,0 +1,19 @@
+{
+  "name": "hotelclover",
+  "version": "1.0.0",
+  "description": "Hotel Clover Management System",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tailwindcss --input ./src/main/resources/static/css/input.css --output ./src/main/resources/static/css/output.css --watch",
+    "build": "tailwindcss --input ./src/main/resources/static/css/input.css --output ./src/main/resources/static/css/output.css --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.18.2",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.14",
+    "tailwindcss": "^4.1.14"
+  }
+}

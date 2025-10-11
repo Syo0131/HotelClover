@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,7 +26,7 @@ public class Tarifas {
     @DecimalMin(value = "0.0", inclusive = true, message = "El precio no puede ser menor que 0")
     @Digits(integer = 10, fraction = 2, message = "El precio debe tener hasta 10 dígitos y 2 decimales")
     @Column(name = "Precio", nullable = false)
-    private Double precio;
+    private BigDecimal precio;
 
     @NotBlank(message = "La moneda es obligatoria")
     @Column(name = "Moneda", nullable = false)

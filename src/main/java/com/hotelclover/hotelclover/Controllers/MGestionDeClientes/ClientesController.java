@@ -1,47 +1,33 @@
 package com.hotelclover.hotelclover.Controllers.MGestionDeClientes;
 
+import com.hotelclover.hotelclover.Dto.MGestionDeClientes.ClientesDTO;
 import com.hotelclover.hotelclover.Models.MGestionDeClientes.Cliente;
 import com.hotelclover.hotelclover.Services.MGestionDeClientes.ClientesService;
-
-import lombok.RequiredArgsConstructor;
-
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/api/clients")
-@RequiredArgsConstructor
+@RequestMapping("/api/clientes")
 public class ClientesController {
 
     @Autowired
-    private ClientesService clientesService;
+    private ClientesService clientService;
 
-    @PostMapping
-    public ResponseEntity<Cliente> create(@RequestBody Cliente client) {
-        return ResponseEntity.ok(clientesService.createClient(client));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Cliente> getById(@PathVariable Long id) {
-        return clientesService.getClientById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping
-    public ResponseEntity<Iterable<Cliente>> getAll() {
-        return ResponseEntity.ok(clientesService.getAllClients());
+    @PostMapping("/register")
+    public Cliente registerClient(@Valid @RequestBody ClientesDTO dto) {
+        return clientService.registerClient(dto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> update(@PathVariable Long id, @RequestBody Cliente client) {
-        return ResponseEntity.ok(clientesService.updateClient(id, client));
+    public Cliente updateClient(@PathVariable Long id, @Valid @RequestBody ClientesDTO dto) {
+        return clientService.updateClient(id, dto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        clientesService.deleteClient(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/{id}")
+    public Optional<Cliente> getClient(@PathVariable Long id) {
+        return clientService.getClientById(id);
     }
 }

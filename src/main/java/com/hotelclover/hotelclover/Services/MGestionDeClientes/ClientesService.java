@@ -1,8 +1,10 @@
 package com.hotelclover.hotelclover.Services.MGestionDeClientes;
 
+import com.hotelclover.hotelclover.Dto.MGestionDeClientes.ClientesDTO;
 import com.hotelclover.hotelclover.Models.MGestionDeClientes.Cliente;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,31 +15,41 @@ public class ClientesService {
     @Autowired
     private ClientesRepository clientesRepository;
 
-    public Cliente createClient(Cliente client) {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public Cliente registerClient(ClientesDTO dto) {
+        if (clientesRepository.existsByEmail(dto.getEmail())) {
+            throw new IllegalArgumentException("Email is already registered");
+        }
+
+        Cliente client = new Cliente();
+        client.setNombre(dto.getNombre());
+        client.setApellido(dto.getApellido());
+        client.setEmail(dto.getEmail());
+        client.setContrasena(passwordEncoder.encode(dto.getContrasena()));
+        client.setTelefono(dto.getTelefono());
+        client.setFechaNacimiento(dto.getFechaNacimiento());
+        client.setTipoUsuario(com.hotelclover.hotelclover.Models.MGestionDeClientes.TipoUsuario.CLIENTE);
+
+        return clientesRepository.save(client);
+    }
+
+    public Cliente updateClient(Long id, ClientesDTO dto) {
+        Cliente client = clientesRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+
+        client.setNombre(dto.getNombre());
+        client.setApellido(dto.getApellido());
+        client.setEmail(dto.getEmail());
+        client.setTelefono(dto.getTelefono());
+        client.setFechaNacimiento(dto.getFechaNacimiento());
+        client.setContrasena(passwordEncoder.encode(dto.getContrasena()));
+
         return clientesRepository.save(client);
     }
 
     public Optional<Cliente> getClientById(Long id) {
         return clientesRepository.findById(id);
-    }
-
-    public Iterable<Cliente> getAllClients() {
-        return clientesRepository.findAll();
-    }
-
-    public void deleteClient(Long id) {
-        clientesRepository.deleteById(id);
-    }
-
-    public Cliente updateClient(Long id, Cliente updatedClient) {
-        return clientesRepository.findById(id).map(client -> {
-            client.setNombre(updatedClient.getNombre());
-            client.setApellido(updatedClient.getApellido());
-            client.setEmail(updatedClient.getEmail());
-            client.setContrasena(updatedClient.getContrasena());
-            client.setTelefono(updatedClient.getTelefono());
-            client.setFechaNacimiento(updatedClient.getFechaNacimiento());
-            return clientesRepository.save(client);
-        }).orElseThrow(() -> new RuntimeException("Client not found"));
     }
 }

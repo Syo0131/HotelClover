@@ -10,46 +10,46 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
-@Table(name = "tarifas")
 @Data
+@Table(name = "tarifa")
 @NoArgsConstructor
-
 public class Tarifa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_tarifa")
     private Long idTarifa;
 
     @NotBlank(message = "La categoría de habitación es obligatoria")
-    @Column(name = "categoria_habitacion", nullable = false)
+    @Column(name = "categoria_habitacion", nullable = false, length = 100)
     private String categoriaHabitacion;
 
     @DecimalMin(value = "0.0", inclusive = true, message = "El precio no puede ser menor que 0")
     @Digits(integer = 10, fraction = 2, message = "El precio debe tener hasta 10 dígitos y 2 decimales")
-    @Column(name = "Precio", nullable = false)
+    @Column(name = "precio", nullable = false)
     private Double precio;
 
     @DecimalMin(value = "0.0", inclusive = true, message = "El impuesto no puede ser negativo")
     @Digits(integer = 5, fraction = 2, message = "El impuesto debe tener hasta 5 dígitos y 2 decimales")
-    @Column(name = "Impuesto", nullable = false)
+    @Column(name = "impuesto", nullable = false)
     private Double impuesto;
 
     @NotBlank(message = "La moneda es obligatoria")
-    @Column(name = "Moneda", nullable = false)
+    @Column(name = "moneda", nullable = false, length = 10)
     private String moneda;
+
+    @Min(value = 1, message = "El número de noches debe ser mayor que 0")
+    @Column(name = "numero_noches", nullable = false)
+    private Integer numeroNoches;
 
     @NotBlank(message = "La temporada es obligatoria")
     @Pattern(regexp = "alta|media|baja", message = "La temporada debe ser 'alta', 'media' o 'baja'")
-    @Column(name = "Temporada", nullable = false)
+    @Column(name = "temporada", nullable = false, length = 20)
     private String temporada;
-
-    @Min(value = 1, message = "El número de noches debe ser mayor que 0")
-    @Column(name = "Numero_noches", nullable = false)
-    private Integer numeroNoches;
 
     @NotBlank(message = "El estado es obligatorio")
     @Pattern(regexp = "activa|inactiva", message = "El estado debe ser 'activa' o 'inactiva'")
-    @Column(name = "Estado", nullable = false)
+    @Column(name = "estado_tarifa", nullable = false, length = 10)
     private String estadoTarifa;
 
     @CreatedDate

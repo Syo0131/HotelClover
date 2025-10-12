@@ -11,7 +11,7 @@ public class TarifasDTO {
     private String categoriaHabitacion;
 
     @NotNull(message = "El precio es obligatorio")
-    @DecimalMin(value = "0.0", inclusive = true, message = "El precio no puede ser menor que 0")
+    @DecimalMin(value = "0.00", inclusive = true, message = "El precio no puede ser menor que 0")
     @Digits(integer = 10, fraction = 2, message = "El precio debe tener hasta 10 dígitos y 2 decimales")
     private Double precio;
 
@@ -20,7 +20,7 @@ public class TarifasDTO {
     private String moneda;
 
     @NotNull(message = "El impuesto es obligatorio")
-    @DecimalMin(value = "0.0", inclusive = true, message = "El impuesto no puede ser negativo")
+    @DecimalMin(value = "0.00", inclusive = true, message = "El impuesto no puede ser negativo")
     @Digits(integer = 5, fraction = 2, message = "El impuesto debe tener hasta 5 dígitos y 2 decimales")
     private Double impuesto;
 
@@ -29,10 +29,14 @@ public class TarifasDTO {
     private Integer numeroNoches;
 
     @NotBlank(message = "La temporada es obligatoria")
-    @Pattern(regexp = "alta|media|baja", message = "La temporada debe ser 'alta', 'media' o 'baja'")
+    @Pattern(regexp = "alta|media|baja", flags = Pattern.Flag.CASE_INSENSITIVE,
+             message = "La temporada debe ser 'alta', 'media' o 'baja'")
+    @Size(max = 20, message = "La temporada no debe exceder 20 caracteres")
     private String temporada;
 
     @NotBlank(message = "El estado es obligatorio")
-    @Pattern(regexp = "activa|inactiva", message = "El estado debe ser 'activa' o 'inactiva'")
+    @Pattern(regexp = "activa|inactiva", flags = Pattern.Flag.CASE_INSENSITIVE,
+             message = "El estado debe ser 'activa' o 'inactiva'")
+    @Size(max = 10, message = "El estado no debe exceder 10 caracteres")
     private String estadoTarifa;
 }

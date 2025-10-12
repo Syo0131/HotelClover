@@ -1,57 +1,79 @@
 package com.hotelclover.hotelclover.Controllers.MGestionDeTarifas;
 
 import com.hotelclover.hotelclover.Dto.MGestionDeTarifas.TarifasDTO;
+import com.hotelclover.hotelclover.Models.MGestionDeClientes.TipoUsuario;
 import com.hotelclover.hotelclover.Models.MGestionDeTarifas.Tarifa;
 import com.hotelclover.hotelclover.Services.MGestionDeTarifas.TarifasService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/tarifas")
+@RequestMapping("/api/tarifa")
 @RequiredArgsConstructor
 public class TarifasController {
 
     private final TarifasService tarifasService;
 
-@PostMapping
-    public ResponseEntity<Tarifa> createRate(@RequestBody TarifasDTO dto) {
-        Tarifa nuevaTarifa = tarifasService.createRate(dto);
-        return ResponseEntity.ok(nuevaTarifa);
+    @PostMapping("/create")
+    public ResponseEntity<Tarifa> createRate(
+            @Valid @RequestBody TarifasDTO dto,
+            @RequestParam TipoUsuario userType) {
+        Tarifa rate = tarifasService.createRate(dto, userType);
+        return ResponseEntity.ok(rate);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Tarifa> updateRate(@PathVariable Long id, @RequestBody TarifasDTO dto) {
-        Tarifa tarifaActualizada = tarifasService.updateRate(id, dto);
-        return ResponseEntity.ok(tarifaActualizada);
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Tarifa> updateRate(
+            @PathVariable Long id,
+            @Valid @RequestBody TarifasDTO dto,
+            @RequestParam TipoUsuario userType) {
+        Tarifa rate = tarifasService.updateRate(id, dto, userType);
+        return ResponseEntity.ok(rate);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Tarifa> getRateById(@PathVariable Long id) {
-        return tarifasService.getRateById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Optional<Tarifa> rate = tarifasService.getRateById(id);
+        return rate.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/categoria")
-    public ResponseEntity<List<Tarifa>> listbycategory(@RequestParam String categoria) {
-        return ResponseEntity.ok(tarifasService.listByCategory(categoria));
+
+    @GetMapping("/category")
+    public ResponseEntity<List<Tarifa>> getRatesByCategory(@RequestParam String category) {
+        return ResponseEntity.ok(tarifasService.getRatesByCategory(category));
     }
 
-    @GetMapping("/temporada")
-    public ResponseEntity<List<Tarifa>> listBySeason(@RequestParam String temporada) {
-        return ResponseEntity.ok(tarifasService.listBySeason(temporada));
+    @GetMapping("/season")
+    public ResponseEntity<List<Tarifa>> getRatesBySeason(@RequestParam String season) {
+        return ResponseEntity.ok(tarifasService.getRatesBySeason(season));
     }
 
-    @GetMapping("/estado")
-    public ResponseEntity<List<Tarifa>> listByState(@RequestParam String estado) {
-        return ResponseEntity.ok(tarifasService.listByStatus(estado));
+    @GetMapping("/status")
+    public ResponseEntity<List<Tarifa>> getRatesByStatus(@RequestParam String status) {
+        return ResponseEntity.ok(tarifasService.getRatesByStatus(status));
     }
 
-    @GetMapping("/noches")
-    public ResponseEntity<List<Tarifa>> listByNumberOfNights(@RequestParam Integer noches) {
-        return ResponseEntity.ok(tarifasService.listByNumberOfNights(noches));
+    @GetMapping("/nights")
+    public ResponseEntity<List<Tarifa>> getRatesByNumberOfNights(@RequestParam Integer nights) {
+        return ResponseEntity.ok(tarifasService.getRatesByNumberOfNights(nights));
+    }
+
+    @GetMapping("/report")
+    public ResponseEntity<List<Tarifa>> generateRateReport(
+            @RequestParam TipoUsuario userType,
+            @RequestParam(required = false) String roomCategory,
+            @RequestParam(required = false) String season,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        List<Tarifa> report = tarifasService.generateRateReport(userType, roomCategory, season, startDate, endDate);
+        return ResponseEntity.ok(report);
     }
 }

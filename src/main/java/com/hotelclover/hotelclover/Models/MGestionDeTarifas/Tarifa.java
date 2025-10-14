@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -27,12 +28,12 @@ public class Tarifa {
     @DecimalMin(value = "0.0", inclusive = true, message = "El precio no puede ser menor que 0")
     @Digits(integer = 10, fraction = 2, message = "El precio debe tener hasta 10 dígitos y 2 decimales")
     @Column(name = "precio", nullable = false)
-    private Double precio;
+    private BigDecimal precio;
 
     @DecimalMin(value = "0.0", inclusive = true, message = "El impuesto no puede ser negativo")
     @Digits(integer = 5, fraction = 2, message = "El impuesto debe tener hasta 5 dígitos y 2 decimales")
     @Column(name = "impuesto", nullable = false)
-    private Double impuesto;
+    private BigDecimal impuesto;
 
     @NotBlank(message = "La moneda es obligatoria")
     @Column(name = "moneda", nullable = false, length = 10)

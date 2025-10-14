@@ -21,7 +21,7 @@ public class AuditoriaController {
     }
 
     @GetMapping("/cliente/{id}")
-    public ResponseEntity<List<AuditoriaCliente>> listarPorCliente(@PathVariable Long id) {
-        return ResponseEntity.ok(auditoriaRepository.findByClienteId(id));
+    public ResponseEntity<List<AuditoriaCliente>> listarPorCliente(@PathVariable Long clienteId) {
+        return ResponseEntity.ok(auditoriaRepository.findByClienteId(clienteId));
     }
 }

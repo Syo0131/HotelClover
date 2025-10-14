@@ -1,5 +1,7 @@
 package com.hotelclover.hotelclover.Dto.MGestionDeTarifas;
 
+import java.math.BigDecimal;
+
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -13,7 +15,7 @@ public class TarifasDTO {
     @NotNull(message = "El precio es obligatorio")
     @DecimalMin(value = "0.00", inclusive = true, message = "El precio no puede ser menor que 0")
     @Digits(integer = 10, fraction = 2, message = "El precio debe tener hasta 10 dígitos y 2 decimales")
-    private Double precio;
+    private BigDecimal precio;
 
     @NotBlank(message = "La moneda es obligatoria")
     @Size(max = 10, message = "La moneda no debe exceder 10 caracteres")
@@ -22,7 +24,7 @@ public class TarifasDTO {
     @NotNull(message = "El impuesto es obligatorio")
     @DecimalMin(value = "0.00", inclusive = true, message = "El impuesto no puede ser negativo")
     @Digits(integer = 5, fraction = 2, message = "El impuesto debe tener hasta 5 dígitos y 2 decimales")
-    private Double impuesto;
+    private BigDecimal impuesto;
 
     @NotNull(message = "El número de noches es obligatorio")
     @Min(value = 1, message = "El número de noches debe ser mayor que 0")

@@ -17,17 +17,11 @@ public class ClientesDTO {
     @NotBlank(message = "El correo es obligatorio")
     private String email;
 
-    @NotBlank(message = "Contraseña obligatoria")
-    @Pattern(
-        regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
-        message = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo"
-    )
+    @Size(max = 100, message = "La contraseña no debe exceder los 100 caracteres")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}$", message = "Debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo")
     private String contrasena;
 
-    @Pattern(
-        regexp = "\\+?[0-9]{10,15}",
-        message = "El número de teléfono debe tener entre 10 y 15 dígitos"
-    )
+    @Pattern(regexp = "\\+?[0-9]{10,15}", message = "El número de teléfono debe tener entre 10 y 15 dígitos")
     private String telefono;
 
     @NotNull(message = "La fecha de nacimiento es obligatoria")

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html
+  lang="es"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Título dinámico -->
+    <title th:text="${pageTitle} ?: 'Hotel Clover'">Hotel Clover</title>
+    <meta
+    name="description"
+    th:content="${pageDescription} ?: 'Hotel Clover - Sistema de Gestión Hotelera'"
+    />
+    <link rel="stylesheet" th:href="@{/css/output.css}" />
+  </head>
+  <body class="bg-background-light font-display text-slate-800">
+    <!-- Contenido principal que será reemplazado por cada página -->
+    <main layout:fragment="content">
+      <!-- El contenido de cada página irá aquí -->
+    </main>
+  </body>
+</html>

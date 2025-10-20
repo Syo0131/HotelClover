@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.Period;
 
 @Entity
 @Table(name = "cliente")
@@ -33,6 +32,9 @@ public class Cliente {
     @Column(name = "telefono", nullable = false, length = 15)
     private String telefono;
 
+    @Column(name = "direccion", nullable = false, length = 255)
+    private String direccion;
+
     @Column(name = "fecha_nacimiento", nullable = false)
     private LocalDate fechaNacimiento;
 
@@ -40,7 +42,4 @@ public class Cliente {
     @Column(nullable = false)
     private TipoUsuario tipoUsuario;
 
-    public boolean isAdult() {
-        return Period.between(this.fechaNacimiento, LocalDate.now()).getYears() >= 18;
-    }
 }

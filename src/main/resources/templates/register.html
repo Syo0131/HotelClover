@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html lang="es"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/main}">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/main}">
 
 <head>
   <meta charset="UTF-8" />
@@ -65,23 +63,32 @@
               pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"
               title="Debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo"
               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
-            <p th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}" class="text-red-600 text-sm mt-1"></p>
+            <p th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}" class="text-red-600 text-sm mt-1">
+            </p>
           </div>
 
           <div>
             <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
-            <input type="tel" th:field="*{telefono}" id="telefono"
-              pattern="\+?[0-9]{10,15}" maxlength="15"
+            <input type="tel" th:field="*{telefono}" id="telefono" pattern="\+?[0-9]{10,15}" maxlength="15"
               title="Debe tener entre 10 y 15 dígitos"
               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
             <p th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}" class="text-red-600 text-sm mt-1"></p>
           </div>
 
           <div>
+            <label for="direccion" class="block text-sm font-medium text-gray-700">Dirección</label>
+            <input type="text" th:field="*{direccion}" id="direccion" maxlength="255"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500"
+              placeholder="Ej. Calle 123, Zona Colonial, Santo Domingo" />
+            <p th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}" class="text-red-600 text-sm mt-1"></p>
+          </div>
+
+          <div>
             <label for="fechaNacimiento" class="block text-sm font-medium text-gray-700">Fecha de nacimiento</label>
             <input type="date" th:field="*{fechaNacimiento}" id="fechaNacimiento"
               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
-            <p th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}" class="text-red-600 text-sm mt-1"></p>
+            <p th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}"
+              class="text-red-600 text-sm mt-1"></p>
           </div>
 
           <button type="submit"
@@ -98,4 +105,5 @@
     </div>
   </div>
 </div>
+
 </html>

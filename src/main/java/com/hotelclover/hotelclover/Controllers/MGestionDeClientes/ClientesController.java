@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
-import java.util.Optional;
 import jakarta.validation.Valid;
 
 @Controller
@@ -27,15 +26,19 @@ public class ClientesController {
         if (result.hasErrors()) {
             return "register";
         }
-
+        try {
+            clientService.validarEmailDuplicado(dto.getEmail(), null);
+        } catch (IllegalArgumentException ex) {
+            result.rejectValue("email", "error.cliente", ex.getMessage());
+            return "register";
+        }
         try {
             clientService.registerClient(dto);
         } catch (IllegalArgumentException ex) {
             result.rejectValue("email", "error.cliente", ex.getMessage());
             return "register";
         }
-
-        return "redirect:/login";
+        return "redirect:/api/clientes/login";
     }
 
     @PutMapping("/{id}")
@@ -46,7 +49,7 @@ public class ClientesController {
 
     @GetMapping("/{id:\\d+}")
     @ResponseBody
-    public Optional<Cliente> getClient(@PathVariable Long id) {
+    public Cliente getClient(@PathVariable Long id) {
         return clientService.getClientById(id);
     }
 
@@ -54,5 +57,41 @@ public class ClientesController {
     public String mostrarFormularioRegistro(Model model) {
         model.addAttribute("cliente", new ClientesDTO());
         return "register";
+    }
+
+    @GetMapping("/update/{id}")
+    public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
+        Cliente cliente = clientService.getClientById(id);
+
+        ClientesDTO dto = new ClientesDTO();
+        dto.setId(cliente.getId());
+        dto.setNombre(cliente.getNombre());
+        dto.setApellido(cliente.getApellido());
+        dto.setEmail(cliente.getEmail());
+        dto.setTelefono(cliente.getTelefono());
+        dto.setFechaNacimiento(cliente.getFechaNacimiento());
+        dto.setDireccion(cliente.getDireccion());
+
+        model.addAttribute("cliente", dto);
+        return "update";
+    }
+
+    @PostMapping("/actualizar/{id}")
+    public String actualizarCliente(@PathVariable Long id,
+            @Valid @ModelAttribute("cliente") ClientesDTO dto,
+            BindingResult result,
+            Model model) {
+        if (result.hasErrors()) {
+            return "update";
+        }
+
+        try {
+            clientService.updateClient(id, dto);
+        } catch (IllegalArgumentException ex) {
+            result.rejectValue("email", "error.cliente", ex.getMessage());
+            return "update";
+        }
+
+        return "redirect:/api/clientes/login";
     }
 }

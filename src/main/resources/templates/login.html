@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<html
-  lang="es"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/main}"
->
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/main}">
+
 <head>
   <title>Login</title>
 </head>
@@ -33,13 +30,15 @@
             Sign in to continue to your dashboard
           </p>
         </div>
-        <form class="mt-8 space-y-6">
+        <form th:action="@{/api/clientes/login}" method="post">
+
+
           <div class="space-y-4">
             <div>
               <label class="sr-only" for="email">Username or Email</label>
               <input autocomplete="email"
                 class="w-full rounded-lg border border-caribbean-green-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-caribbean-green-500 focus:ring-2 focus:ring-caribbean-green-500"
-                id="email" name="email" placeholder="Username or Email" required type="email" />
+                id="username" name="username" placeholder="Username or Email" required type="email" />
             </div>
             <div>
               <label class="sr-only" for="password">Password</label>
@@ -61,6 +60,10 @@
               type="submit">
               Login
             </button>
+            <div th:if="${error}" class="text-red-600 text-sm text-center mb-4">
+              <p th:text="${error}"></p>
+            </div>
+
           </div>
         </form>
         <p class="mt-8 text-center text-sm text-slate-600">

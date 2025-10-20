@@ -7,6 +7,8 @@ import java.time.LocalDate;
 @Data
 public class ClientesDTO {
 
+    private Long id;
+
     @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
 
@@ -17,13 +19,14 @@ public class ClientesDTO {
     @NotBlank(message = "El correo es obligatorio")
     private String email;
 
-    @Size(max = 100, message = "La contraseña no debe exceder los 100 caracteres")
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}$", message = "Debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo")
     private String contrasena;
 
     @Pattern(regexp = "\\+?[0-9]{10,15}", message = "El número de teléfono debe tener entre 10 y 15 dígitos")
     private String telefono;
 
-    @NotNull(message = "La fecha de nacimiento es obligatoria")
+    @NotBlank(message = "La dirección es obligatoria")
+    @Size(max = 255, message = "La dirección no debe exceder los 255 caracteres")
+    private String direccion;
+    
     private LocalDate fechaNacimiento;
 }

@@ -1,47 +1,106 @@
 package com.hotelclover.hotelclover.Controllers.MGestionDeServicios;
 
+import com.hotelclover.hotelclover.Dto.MGestionDeServicios.ServicioDTO;
 import com.hotelclover.hotelclover.Models.MGestionDeServicios.Servicio;
 import com.hotelclover.hotelclover.Services.MGestionDeServicios.ServicioService;
 
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
 
-@RestController
+import jakarta.validation.Valid;
+
+@Controller
 @RequestMapping("/api/servicios")
-@RequiredArgsConstructor
 public class ServicioController {
 
     @Autowired
     private ServicioService servicioService;
 
-    @PostMapping
-    public ResponseEntity<Servicio> create(@RequestBody Servicio servicio) {
-        return ResponseEntity.ok(servicioService.createServicio(servicio));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Servicio> getById(@PathVariable Long id) {
-        return servicioService.getServicioById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping
-    public ResponseEntity<Iterable<Servicio>> getAll() {
-        return ResponseEntity.ok(servicioService.getAllServicios());
+    @PostMapping("/registro-servicio")
+    public String procesarFormulario(@Valid @ModelAttribute("servicio") ServicioDTO dto,
+            BindingResult result,
+            Model model) {
+        if (result.hasErrors()) {
+            return "servicio-registro";
+        }
+        try {
+            servicioService.validarNombreDuplicado(dto.getNombre(), null);
+        } catch (IllegalArgumentException ex) {
+            result.rejectValue("nombre", "error.servicio", ex.getMessage());
+            return "servicio-registro";
+        }
+        try {
+            servicioService.registerServicio(dto);
+        } catch (IllegalArgumentException ex) {
+            result.rejectValue("nombre", "error.servicio", ex.getMessage());
+            return "servicio-registro";
+        }
+        return "redirect:/api/servicios/lista";
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Servicio> update(@PathVariable Long id, @RequestBody Servicio servicio) {
-        return ResponseEntity.ok(servicioService.updateServicio(id, servicio));
+    @ResponseBody
+    public Servicio updateServicio(@PathVariable Long id, @Valid @RequestBody ServicioDTO dto) {
+        return servicioService.updateServicio(id, dto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    @GetMapping("/{id:\\d+}")
+    @ResponseBody
+    public Servicio getServicio(@PathVariable Long id) {
+        return servicioService.getServicioById(id);
+    }
+
+    @GetMapping("/registro-servicio-form")
+    public String mostrarFormularioRegistro(Model model) {
+        model.addAttribute("servicio", new ServicioDTO());
+        return "servicio-registro";
+    }
+
+    @GetMapping("/update/{id}")
+    public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
+        Servicio servicio = servicioService.getServicioById(id);
+
+        ServicioDTO dto = new ServicioDTO();
+        dto.setIdServicio(servicio.getIdServicio());
+        dto.setNombre(servicio.getNombre());
+        dto.setActivo(servicio.isActivo());
+        dto.setPrecioBase(servicio.getPrecioBase());
+
+        model.addAttribute("servicio", dto);
+        return "servicio-update";
+    }
+
+    @PostMapping("/actualizar/{id}")
+    public String actualizarServicio(@PathVariable Long id,
+            @Valid @ModelAttribute("servicio") ServicioDTO dto,
+            BindingResult result,
+            Model model) {
+        if (result.hasErrors()) {
+            return "servicio-update";
+        }
+
+        try {
+            servicioService.updateServicio(id, dto);
+        } catch (IllegalArgumentException ex) {
+            result.rejectValue("nombre", "error.servicio", ex.getMessage());
+            return "servicio-update";
+        }
+
+        return "redirect:/api/servicios/lista";
+    }
+
+    @GetMapping("/lista")
+    public String listarServicios(Model model) {
+        model.addAttribute("servicios", servicioService.getAllServicios());
+        return "servicio-lista";
+    }
+
+    @PostMapping("/eliminar/{id}")
+    public String eliminarServicio(@PathVariable Long id) {
         servicioService.deleteServicio(id);
-        return ResponseEntity.noContent().build();
+        return "redirect:/api/servicios/lista";
     }
 }

@@ -1,34 +1,38 @@
 package com.hotelclover.hotelclover.Models.MGestionDeServicios;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
-@Table(name = "Servicios")
+@Table(name = "servicios")
 @Data
 @NoArgsConstructor
 public class Servicio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idServicio")
     private Long idServicio;
 
-    @NotBlank(message = "El nombre del servicio es obligatorio")
-    @Column(name = "Nombre", nullable = false)
+    @Column(name = "nombre", nullable = false, unique = true, length = 100)
     private String nombre;
 
-    @Column(name = "Estado", nullable = false)
+    @Column(name = "estado", nullable = false)
     private boolean activo;
 
-    @NotNull(message = "El precio base es obligatorio")
-    @Positive(message = "El precio debe ser mayor a 0")
-    @Column(name = "Precio_base", nullable = false)
+    @Column(name = "precio_base", nullable = false)
     private Double precioBase;
 
-    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL)
+    @Column(name = "descripcion", length = 500)
+    private String descripcion;
+
+    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ServicioCategoria> categoriasAsociadas;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_servicio", nullable = false)
+    private TipoServicio tipoServicio;
 }

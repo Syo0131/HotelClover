@@ -1,5 +1,9 @@
 package com.hotelclover.hotelclover.Dto.MGestionDeServicios;
 
+import com.hotelclover.hotelclover.Models.MGestionDeServicios.TipoServicio;
+
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -20,4 +24,10 @@ public class ServicioDTO {
     @DecimalMin(value = "0.01", message = "El precio mínimo es 0.01")
     @DecimalMax(value = "999999.99", message = "El precio máximo es 999999.99")
     private Double precioBase;
+
+    @Size(max = 500, message = "La descripción no debe exceder los 500 caracteres")
+    private String descripcion;
+
+    @Enumerated(EnumType.STRING)
+private TipoServicio tipoServicio;
 }

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/main}">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Definir Tarifa - Hotel Management System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<div layout:fragment="content">
+  <div class="bg-green-50 min-h-screen flex items-center justify-center py-10">
+    <div class="bg-white shadow-lg rounded-lg w-full max-w-4xl flex overflow-hidden">
+
+      <div class="bg-green-600 text-white w-1/2 p-10 flex flex-col justify-center">
+        <h1 class="text-2xl font-bold mb-4">Hotel Management System</h1>
+        <p class="text-lg">Define tarifas estándar para cada categoría de habitación.</p>
+      </div>
+
+      <div class="w-1/2 p-10">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Crear Tarifa</h2>
+        <p class="text-sm text-gray-600 mb-6">Completa los datos para registrar una nueva tarifa</p>
+        <form th:action="@{/tarifas/crear}" th:object="${tarifa}" method="post">
+          <div th:if="${#fields.hasErrors()}">
+            <ul class="text-red-600 text-sm mb-4">
+              <li th:each="err : ${#fields.errors()}" th:text="${err}"></li>
+            </ul>
+          </div>
+
+          <div>
+            <label for="categoriaHabitacion" class="block text-sm font-medium text-gray-700">Categoría de
+              habitación</label>
+            <select th:field="*{categoriaHabitacion.id}" id="categoriaHabitacion"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500">
+              <option value="">Seleccione una categoría</option>
+              <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.nombre}"></option>
+            </select>
+            <p th:errors="*{categoriaHabitacion}" class="text-red-600 text-sm mt-1"></p>
+          </div>
+
+          <div>
+            <label for="precio" class="block text-sm font-medium text-gray-700">Precio</label>
+            <input type="number" step="0.01" th:field="*{precio}" id="precio"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
+            <p th:errors="*{precio}" class="text-red-600 text-sm mt-1"></p>
+          </div>
+
+          <div>
+            <label for="moneda" class="block text-sm font-medium text-gray-700">Moneda</label>
+            <input type="text" th:field="*{moneda}" id="moneda"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
+            <p th:errors="*{moneda}" class="text-red-600 text-sm mt-1"></p>
+          </div>
+
+          <div>
+            <label for="impuesto" class="block text-sm font-medium text-gray-700">Impuesto</label>
+            <input type="number" step="0.01" th:field="*{impuesto}" id="impuesto"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
+            <p th:errors="*{impuesto}" class="text-red-600 text-sm mt-1"></p>
+          </div>
+
+          <div>
+            <label for="temporada" class="block text-sm font-medium text-gray-700">Temporada</label>
+            <select th:field="*{temporada}" id="temporada"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500">
+              <option value="">Seleccione una temporada</option>
+              <option value="alta">Alta</option>
+              <option value="media">Media</option>
+              <option value="baja">Baja</option>
+            </select>
+            <p th:errors="*{temporada}" class="text-red-600 text-sm mt-1"></p>
+          </div>
+
+          <div>
+            <label for="estadoTarifa" class="block text-sm font-medium text-gray-700">Estado de la tarifa</label>
+            <select th:field="*{estadoTarifa}" id="estadoTarifa"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500">
+              <option value="">Seleccione estado</option>
+              <option value="activa">Activa</option>
+              <option value="inactiva">Inactiva</option>
+            </select>
+            <p th:errors="*{estadoTarifa}" class="text-red-600 text-sm mt-1"></p>
+          </div>
+
+          <div>
+            <label for="numeroNoches" class="block text-sm font-medium text-gray-700">Número de noches</label>
+            <input type="number" th:field="*{numeroNoches}" id="numeroNoches" min="1"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
+            <p th:errors="*{numeroNoches}" class="text-red-600 text-sm mt-1"></p>
+          </div>
+
+          <button type="submit"
+            class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition">
+            Registrar Tarifa
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</html>

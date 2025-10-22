@@ -1,4 +1,4 @@
-package com.hotelclover.hotelclover.Dto.MGestionDeTarifas;
+package com.hotelclover.hotelclover.Dtos;
 
 import java.math.BigDecimal;
 

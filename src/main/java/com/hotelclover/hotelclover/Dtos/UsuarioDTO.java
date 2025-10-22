@@ -1,4 +1,4 @@
-package com.hotelclover.hotelclover.Dto.MGestionDeClientes;
+package com.hotelclover.hotelclover.Dtos;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;

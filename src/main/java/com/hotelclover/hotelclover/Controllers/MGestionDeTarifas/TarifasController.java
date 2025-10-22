@@ -1,8 +1,8 @@
 package com.hotelclover.hotelclover.Controllers.MGestionDeTarifas;
 
-import com.hotelclover.hotelclover.Dto.MGestionDeTarifas.TarifasDTO;
-import com.hotelclover.hotelclover.Models.MGestionDeClientes.TipoUsuario;
-import com.hotelclover.hotelclover.Models.MGestionDeTarifas.Tarifa;
+import com.hotelclover.hotelclover.Dtos.TarifasDTO;
+import com.hotelclover.hotelclover.Models.Tarifa;
+import com.hotelclover.hotelclover.Models.TipoUsuario;
 import com.hotelclover.hotelclover.Services.MGestionDeTarifas.TarifasService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

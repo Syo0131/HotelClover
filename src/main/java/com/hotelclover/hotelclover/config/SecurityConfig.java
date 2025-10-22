@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.hotelclover.hotelclover.Models.MGestionDeClientes.Usuario;
+import com.hotelclover.hotelclover.Models.Usuario;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -1,6 +1,6 @@
 package com.hotelclover.hotelclover.Services;
 
-import com.hotelclover.hotelclover.Models.MGestionDeClientes.Usuario;
+import com.hotelclover.hotelclover.Models.Usuario;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;

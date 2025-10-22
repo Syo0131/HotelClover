@@ -1,8 +1,8 @@
 package com.hotelclover.hotelclover;
 
-import com.hotelclover.hotelclover.Dto.MGestionDeClientes.UsuarioDTO;
-import com.hotelclover.hotelclover.Models.MGestionDeClientes.Usuario;
-import com.hotelclover.hotelclover.Models.MGestionDeClientes.TipoUsuario;
+import com.hotelclover.hotelclover.Dtos.UsuarioDTO;
+import com.hotelclover.hotelclover.Models.TipoUsuario;
+import com.hotelclover.hotelclover.Models.Usuario;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 import com.hotelclover.hotelclover.Services.MGestionDeClientes.ClientesService;
 

@@ -1,7 +1,7 @@
 package com.hotelclover.hotelclover.Controllers;
 
-import com.hotelclover.hotelclover.Models.MGestionDeClientes.Usuario;
-import com.hotelclover.hotelclover.Models.MGestionDeClientes.TipoUsuario;
+import com.hotelclover.hotelclover.Models.TipoUsuario;
+import com.hotelclover.hotelclover.Models.Usuario;
 
 import jakarta.servlet.http.HttpSession;
 

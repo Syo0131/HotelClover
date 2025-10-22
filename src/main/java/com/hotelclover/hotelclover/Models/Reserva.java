@@ -42,6 +42,6 @@ public class Reserva {
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = false)
     @NotNull(message = "El cliente no puede ser nulo")
-    private Clientes cliente;
+    private Usuario cliente;
 
 }

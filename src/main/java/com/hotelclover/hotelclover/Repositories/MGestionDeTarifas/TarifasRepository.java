@@ -1,8 +1,9 @@
 package com.hotelclover.hotelclover.Repositories.MGestionDeTarifas;
 
-import com.hotelclover.hotelclover.Models.MGestionDeTarifas.Tarifa;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
+import com.hotelclover.hotelclover.Models.Tarifa;
 
 import java.util.List;
 

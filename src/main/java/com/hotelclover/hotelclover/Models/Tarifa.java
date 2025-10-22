@@ -1,4 +1,4 @@
-package com.hotelclover.hotelclover.Models.MGestionDeTarifas;
+package com.hotelclover.hotelclover.Models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;

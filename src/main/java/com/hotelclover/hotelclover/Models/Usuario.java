@@ -1,4 +1,4 @@
-package com.hotelclover.hotelclover.Models.MGestionDeClientes;
+package com.hotelclover.hotelclover.Models;
 
 import jakarta.persistence.*;
 import lombok.Data;

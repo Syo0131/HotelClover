@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/main}">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Administrativo - Hotel Management System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div th:if="${cliente.tipoUsuario.name() == 'ADMINISTRADOR' or cliente.tipoUsuario.name() == 'RECEPCIONISTA'}">
+      <h1>Bienvenido al panel administrativo</h1>
+    </div>
+    <form th:action="@{/api/clientes/update/{id}(id=${cliente.id})}" method="get">
+      <button type="submit"
+        class="bg-green-600 text-white px-6 py-2 rounded-md shadow hover:bg-green-700 transition duration-300">
+        Definir Tarifa
+      </button>
+    </form>
+
+  </div>
+  </div>
+</body>
+
+</html>

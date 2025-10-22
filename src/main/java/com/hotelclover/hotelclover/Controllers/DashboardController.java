@@ -1,29 +1,42 @@
 package com.hotelclover.hotelclover.Controllers;
 
-import com.hotelclover.hotelclover.Models.MGestionDeClientes.Cliente;
-import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
+import com.hotelclover.hotelclover.Models.MGestionDeClientes.Usuario;
+import com.hotelclover.hotelclover.Models.MGestionDeClientes.TipoUsuario;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.security.Principal;
-
 @Controller
 public class DashboardController {
 
-    @Autowired
-    private ClientesRepository clientesrepository;
-
     @GetMapping("/dashboard")
-    public String mostrarDashboard(Model model, Principal principal) {
-        System.out.println("Email autenticado: " + principal.getName());
+    public String mostrarDashboard(HttpSession session, Model model) {
+        Usuario cliente = (Usuario) session.getAttribute("cliente");
 
-        Cliente cliente = clientesrepository.findByEmail(principal.getName())
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-
+        if (cliente == null) {
+            return "redirect:/api/clientes/login";
+        }
+        if (cliente.getTipoUsuario() != TipoUsuario.CLIENTE) {
+            return "redirect:/dashboardAdministrativo";
+        }
         model.addAttribute("cliente", cliente);
         return "dashboard";
+    }
+
+    @GetMapping("/dashboardAdministrativo")
+    public String mostrarDashboardAdminRecepcionista(HttpSession session, Model model) {
+        Usuario cliente = (Usuario) session.getAttribute("cliente");
+        if (cliente == null) {
+            return "redirect:/api/clientes/login";
+        }
+        if (cliente.getTipoUsuario() != TipoUsuario.ADMINISTRADOR &&
+                cliente.getTipoUsuario() != TipoUsuario.RECEPCIONISTA) {
+            return "redirect:/dashboard";
+        }
+        model.addAttribute("cliente", cliente);
+        return "dashboardAdministrativo";
     }
 }

@@ -1,10 +1,11 @@
 package com.hotelclover.hotelclover.Services.MGestionDeClientes;
 
-import com.hotelclover.hotelclover.Dto.MGestionDeClientes.ClientesDTO;
-import com.hotelclover.hotelclover.Models.MGestionDeClientes.Cliente;
+import com.hotelclover.hotelclover.Dto.MGestionDeClientes.UsuarioDTO;
+import com.hotelclover.hotelclover.Models.MGestionDeClientes.Usuario;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +14,13 @@ import org.springframework.stereotype.Service;
 public class ClientesService {
 
     private final ClientesRepository clientesRepository;
+
     private final PasswordEncoder passwordEncoder;
 
-    public Cliente registerClient(ClientesDTO dto) {
+    public Usuario registerClient(UsuarioDTO dto) {
         validarEmailDuplicado(dto.getEmail(), null);
 
-        Cliente client = new Cliente();
+        Usuario client = new Usuario();
         client.setNombre(dto.getNombre());
         client.setApellido(dto.getApellido());
         client.setEmail(dto.getEmail());
@@ -39,8 +41,8 @@ public class ClientesService {
         return clientesRepository.save(client);
     }
 
-    public Cliente updateClient(Long id, ClientesDTO dto) {
-        Cliente original = getClientById(id);
+    public Usuario updateClient(Long id, UsuarioDTO dto) {
+        Usuario original = getClientById(id);
 
         validarEmailDuplicado(dto.getEmail(), id);
 
@@ -64,7 +66,7 @@ public class ClientesService {
         return clientesRepository.save(original);
     }
 
-    public Cliente getClientById(Long id) {
+    public Usuario getClientById(Long id) {
         return clientesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
     }
@@ -75,5 +77,11 @@ public class ClientesService {
                 throw new IllegalArgumentException("Ya existe un cliente con ese correo electrónico.");
             }
         });
+    }
+
+    public Usuario autenticar(String email, String contrasena) {
+        return clientesRepository.findByEmail(email)
+                .filter(cliente -> passwordEncoder.matches(contrasena, cliente.getContrasena()))
+                .orElse(null);
     }
 }

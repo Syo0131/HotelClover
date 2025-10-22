@@ -1,7 +1,7 @@
 package com.hotelclover.hotelclover.Controllers.MGestionDeClientes;
 
-import com.hotelclover.hotelclover.Dto.MGestionDeClientes.ClientesDTO;
-import com.hotelclover.hotelclover.Models.MGestionDeClientes.Cliente;
+import com.hotelclover.hotelclover.Dto.MGestionDeClientes.UsuarioDTO;
+import com.hotelclover.hotelclover.Models.MGestionDeClientes.Usuario;
 import com.hotelclover.hotelclover.Services.MGestionDeClientes.ClientesService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class ClientesController {
     private ClientesService clientService;
 
     @PostMapping("/registro-cliente")
-    public String procesarFormulario(@Valid @ModelAttribute("cliente") ClientesDTO dto,
+    public String procesarFormulario(@Valid @ModelAttribute("cliente") UsuarioDTO dto,
             BindingResult result,
             Model model) {
         if (result.hasErrors()) {
@@ -43,27 +43,27 @@ public class ClientesController {
 
     @PutMapping("/{id}")
     @ResponseBody
-    public Cliente updateClient(@PathVariable Long id, @Valid @RequestBody ClientesDTO dto) {
+    public Usuario updateClient(@PathVariable Long id, @Valid @RequestBody UsuarioDTO dto) {
         return clientService.updateClient(id, dto);
     }
 
     @GetMapping("/{id:\\d+}")
     @ResponseBody
-    public Cliente getClient(@PathVariable Long id) {
+    public Usuario getClient(@PathVariable Long id) {
         return clientService.getClientById(id);
     }
 
     @GetMapping("/registro-cliente-form")
     public String mostrarFormularioRegistro(Model model) {
-        model.addAttribute("cliente", new ClientesDTO());
+        model.addAttribute("cliente", new UsuarioDTO());
         return "register";
     }
 
     @GetMapping("/update/{id}")
     public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
-        Cliente cliente = clientService.getClientById(id);
+        Usuario cliente = clientService.getClientById(id);
 
-        ClientesDTO dto = new ClientesDTO();
+        UsuarioDTO dto = new UsuarioDTO();
         dto.setId(cliente.getId());
         dto.setNombre(cliente.getNombre());
         dto.setApellido(cliente.getApellido());
@@ -78,7 +78,7 @@ public class ClientesController {
 
     @PostMapping("/actualizar/{id}")
     public String actualizarCliente(@PathVariable Long id,
-            @Valid @ModelAttribute("cliente") ClientesDTO dto,
+            @Valid @ModelAttribute("cliente") UsuarioDTO dto,
             BindingResult result,
             Model model) {
         if (result.hasErrors()) {

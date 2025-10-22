@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "cliente")
+@Table(name = "usuario")
 @Data
 @NoArgsConstructor
-public class Cliente {
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_cliente")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "nombre", nullable = false, length = 150)
@@ -41,5 +41,4 @@ public class Cliente {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TipoUsuario tipoUsuario;
-
 }

@@ -3,6 +3,7 @@ package com.hotelclover.hotelclover.Services.MGestionDeClientes;
 import com.hotelclover.hotelclover.Dto.MGestionDeClientes.UsuarioDTO;
 import com.hotelclover.hotelclover.Models.MGestionDeClientes.Usuario;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
+import com.hotelclover.hotelclover.Models.MGestionDeClientes.TipoUsuario;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +29,7 @@ public class ClientesService {
         client.setTelefono(dto.getTelefono());
         client.setFechaNacimiento(dto.getFechaNacimiento());
         client.setDireccion(dto.getDireccion());
-        client.setTipoUsuario(com.hotelclover.hotelclover.Models.MGestionDeClientes.TipoUsuario.CLIENTE);
+        client.setTipoUsuario(TipoUsuario.CLIENTE);
 
         if (dto.getContrasena() == null || dto.getContrasena().isBlank()) {
             throw new IllegalArgumentException("La contraseña es obligatoria");

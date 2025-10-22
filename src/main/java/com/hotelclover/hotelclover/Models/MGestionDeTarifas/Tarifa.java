@@ -18,7 +18,7 @@ public class Tarifa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_tarifa")
+    @Column(name = "id")
     private Long id;
 
     @NotBlank(message = "La categoría de habitación es obligatoria")

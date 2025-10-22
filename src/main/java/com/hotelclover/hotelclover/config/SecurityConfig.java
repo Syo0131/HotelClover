@@ -33,8 +33,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/api/clientes/login")
                         .loginProcessingUrl("/api/clientes/login")
-                        .successHandler(customSuccessHandler(clientesRepository)) // ← Aquí se activa el handler
-                                                                                  // personalizado
+                        .successHandler(customSuccessHandler(clientesRepository)) 
                         .failureUrl("/api/clientes/login?error=true")
                         .permitAll())
                 .logout(logout -> logout

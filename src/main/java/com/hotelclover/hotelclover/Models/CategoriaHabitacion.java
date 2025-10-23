@@ -4,26 +4,22 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
-
 @Entity
-@Table(
-    name = "CategoriasHabitaciones")
+@Table(name = "CategoriasHabitaciones")
 @Data
-public class CategoriaHabitacion  {
-    
+public class CategoriaHabitacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long IdCategoriaHabitacion;
-    
-    @NotBlank 
+    private Long id;
+
+    @NotBlank
     @Size(max = 80)
     @Column(name = "nombre", nullable = false, length = 80)
-    private String Nombre;
+    private String nombre;
 
     @Size(max = 255)
     @Column(name = "descripcion", length = 255)
-    private String Descripcion;
+    private String descripcion;
 
-    
 }

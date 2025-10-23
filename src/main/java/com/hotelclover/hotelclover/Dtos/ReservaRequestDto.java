@@ -10,36 +10,33 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/**
+ * DTO para crear o actualizar una reserva
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReservaDto {
-
-    private Long id;
+public class ReservaRequestDto {
 
     @NotNull(message = "La fecha de entrada es obligatoria")
-    @Future(message = "La fecha de entrada debe ser futura")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaEntrada;
 
     @NotNull(message = "La fecha de salida es obligatoria")
-    @Future(message = "La fecha de salida debe ser futura")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaSalida;
 
     @NotNull(message = "El número de huéspedes es obligatorio")
     @Min(value = 1, message = "Debe haber al menos 1 huésped")
     @Max(value = 10, message = "No se permiten más de 10 huéspedes")
-    private Integer numeroHuespedes;
+    private Integer numeroDeHuespedes;
 
     @NotNull(message = "El ID de la categoría de habitación es obligatorio")
+    @Positive(message = "El ID de la categoría debe ser positivo")
     private Long idCategoriaHabitacion;
 
     @NotNull(message = "El ID del cliente es obligatorio")
+    @Positive(message = "El ID del cliente debe ser positivo")
     private Long idCliente;
-
-    // Campos adicionales para respuesta
-    private String nombreCliente;
-    private String nombreCategoria;
 }

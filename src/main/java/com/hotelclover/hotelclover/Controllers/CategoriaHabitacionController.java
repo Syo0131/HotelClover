@@ -21,13 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/api/categorias")
 public class CategoriaHabitacionController {
     
-    @Autowired
-    CategoriaHabitacionService service ; 
+    private final CategoriaHabitacionService service;
 
-
-
-    
-    
+    public CategoriaHabitacionController(CategoriaHabitacionService service) {
+        this.service = service;
+    }
 
     @PostMapping
     public ResponseEntity<CategoriaHabitacionDto> crear(@Validated @RequestBody CrearCategoriaHabitacionDto dto) {

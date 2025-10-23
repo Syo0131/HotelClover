@@ -2,80 +2,92 @@ package com.hotelclover.hotelclover.Services.MGestionDeServicios;
 
 import com.hotelclover.hotelclover.Dto.MGestionDeServicios.ServicioDTO;
 import com.hotelclover.hotelclover.Models.MGestionDeServicios.Servicio;
-import com.hotelclover.hotelclover.Models.MGestionDeServicios.TipoServicio;
 import com.hotelclover.hotelclover.Repositories.MGestionDeServicios.ServicioRepository;
-
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@Transactional
 public class ServicioService {
 
-    private final ServicioRepository servicioRepository;
+    @Autowired
+    private ServicioRepository servicioRepository;
 
+    // Registrar nuevo servicio
     public Servicio registerServicio(ServicioDTO dto) {
         validarNombreDuplicado(dto.getNombre(), null);
+        Servicio servicio = dtoToEntity(dto);
+        return servicioRepository.save(servicio);
+    }
 
-        Servicio servicio = new Servicio();
+    // Actualizar servicio existente
+    public Servicio updateServicio(Long id, ServicioDTO dto) {
+        Servicio servicio = servicioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Servicio no encontrado"));
+
+        validarNombreDuplicado(dto.getNombre(), id);
+
         servicio.setNombre(dto.getNombre());
-        servicio.setActivo(dto.getActivo() != null ? dto.getActivo() : true);
+        servicio.setActivo(dto.getActivo());
         servicio.setPrecioBase(dto.getPrecioBase());
         servicio.setDescripcion(dto.getDescripcion());
-        servicio.setTipoServicio(dto.getTipoServicio() != null ? dto.getTipoServicio() : TipoServicio.OTROS);
-
-        if (dto.getPrecioBase() == null || dto.getPrecioBase() <= 0) {
-            throw new IllegalArgumentException("El precio base es obligatorio y debe ser mayor a 0");
-        }
-
-        if (dto.getNombre() == null || dto.getNombre().isBlank()) {
-            throw new IllegalArgumentException("El nombre del servicio es obligatorio");
-        }
+        servicio.setTipoServicio(dto.getTipoServicio());
 
         return servicioRepository.save(servicio);
     }
 
-    public Servicio updateServicio(Long id, ServicioDTO dto) {
-        Servicio original = getServicioById(id);
-
-        validarNombreDuplicado(dto.getNombre(), id);
-
-        original.setNombre(dto.getNombre());
-        original.setActivo(dto.getActivo() != null ? dto.getActivo() : original.isActivo());
-        original.setPrecioBase(dto.getPrecioBase());
-
-        if (dto.getDescripcion() != null && !dto.getDescripcion().isBlank()) {
-            original.setDescripcion(dto.getDescripcion());
-        }
-
-        if (dto.getTipoServicio() != null) {
-            original.setTipoServicio(dto.getTipoServicio());
-        }
-
-        return servicioRepository.save(original);
-    }
-
+    // Obtener un servicio por ID
     public Servicio getServicioById(Long id) {
         return servicioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Servicio no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Servicio no encontrado"));
     }
 
-    public Iterable<Servicio> getAllServicios() {
+    // Obtener todos los servicios
+    public List<Servicio> getAllServicios() {
         return servicioRepository.findAll();
     }
 
+    // Eliminar servicio
     public void deleteServicio(Long id) {
         if (!servicioRepository.existsById(id)) {
-            throw new RuntimeException("Servicio no encontrado");
+            throw new IllegalArgumentException("Servicio no encontrado");
         }
         servicioRepository.deleteById(id);
     }
 
+    // Validar nombre duplicado
     public void validarNombreDuplicado(String nombre, Long idActual) {
-        servicioRepository.findByNombre(nombre).ifPresent(servicioExistente -> {
-            if (idActual == null || !servicioExistente.getIdServicio().equals(idActual)) {
-                throw new IllegalArgumentException("Ya existe un servicio con ese nombre.");
-            }
-        });
+        Optional<Servicio> existente = servicioRepository.findByNombre(nombre);
+        if (existente.isPresent() && (idActual == null || !existente.get().getIdServicio().equals(idActual))) {
+            throw new IllegalArgumentException("Ya existe un servicio con ese nombre");
+        }
+    }
+
+    // Conversión DTO -> Entity
+    private Servicio dtoToEntity(ServicioDTO dto) {
+        Servicio s = new Servicio();
+        s.setNombre(dto.getNombre());
+        s.setActivo(dto.getActivo());
+        s.setPrecioBase(dto.getPrecioBase());
+        s.setDescripcion(dto.getDescripcion());
+        s.setTipoServicio(dto.getTipoServicio());
+        return s;
+    }
+
+    // Conversión Entity -> DTO
+    public ServicioDTO entityToDto(Servicio servicio) {
+        ServicioDTO dto = new ServicioDTO();
+        dto.setIdServicio(servicio.getIdServicio());
+        dto.setNombre(servicio.getNombre());
+        dto.setActivo(servicio.isActivo());
+        dto.setPrecioBase(servicio.getPrecioBase());
+        dto.setDescripcion(servicio.getDescripcion());
+        dto.setTipoServicio(servicio.getTipoServicio());
+        return dto;
     }
 }

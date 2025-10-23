@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,7 +35,8 @@ class ServiciosServiceTest {
         ServicioDTO dto = new ServicioDTO();
         dto.setNombre("Limpieza");
         dto.setDescripcion("Servicio de limpieza diario");
-        dto.setPrecioBase(100.0);
+        dto.setPrecioBase(new BigDecimal(100.0));
+
         dto.setTipoServicio(TipoServicio.ALIMENTACION);
 
         when(serviciosRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
@@ -50,7 +52,8 @@ class ServiciosServiceTest {
     @Test
     void testRegisterServiceFailsWithoutName() {
         ServicioDTO dto = new ServicioDTO();
-        dto.setPrecioBase(50.0);
+        dto.setPrecioBase(BigDecimal.valueOf(100.0));
+
 
         Exception ex = assertThrows(IllegalArgumentException.class, () -> {
             serviciosService.registerServicio(dto);
@@ -79,11 +82,11 @@ class ServiciosServiceTest {
         Servicio original = new Servicio();
         original.setIdServicio(1L);
         original.setNombre("Transporte");
-        original.setPrecioBase(50.0);
+        original.setPrecioBase(BigDecimal.valueOf(150.0));
 
         ServicioDTO dto = new ServicioDTO();
         dto.setNombre("Transporte VIP");
-        dto.setPrecioBase(120.0);
+        dto.setPrecioBase(BigDecimal.valueOf(100.0));
 
         when(serviciosRepository.findById(1L)).thenReturn(Optional.of(original));
         when(serviciosRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));

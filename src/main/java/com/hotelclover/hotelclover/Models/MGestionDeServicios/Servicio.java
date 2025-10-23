@@ -3,7 +3,7 @@ package com.hotelclover.hotelclover.Models.MGestionDeServicios;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -23,8 +23,8 @@ public class Servicio {
     @Column(name = "estado", nullable = false)
     private boolean activo;
 
-    @Column(name = "precio_base", nullable = false)
-    private Double precioBase;
+    @Column(name = "precio_base", nullable = false, precision = 10, scale = 2)
+    private BigDecimal precioBase;
 
     @Column(name = "descripcion", length = 500)
     private String descripcion;

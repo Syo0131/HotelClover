@@ -1,11 +1,10 @@
 package com.hotelclover.hotelclover.Dto.MGestionDeServicios;
 
 import com.hotelclover.hotelclover.Models.MGestionDeServicios.TipoServicio;
-
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+
+import java.math.BigDecimal;
 
 @Data
 public class ServicioDTO {
@@ -20,14 +19,13 @@ public class ServicioDTO {
     private Boolean activo;
 
     @NotNull(message = "El precio base es obligatorio")
-    @Positive(message = "El precio debe ser mayor a 0")
     @DecimalMin(value = "0.01", message = "El precio mínimo es 0.01")
     @DecimalMax(value = "999999.99", message = "El precio máximo es 999999.99")
-    private Double precioBase;
+    private BigDecimal precioBase;
 
     @Size(max = 500, message = "La descripción no debe exceder los 500 caracteres")
     private String descripcion;
 
-    @Enumerated(EnumType.STRING)
-private TipoServicio tipoServicio;
+    @NotNull(message = "El tipo de servicio es obligatorio")
+    private TipoServicio tipoServicio;
 }

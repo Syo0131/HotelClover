@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-
 import jakarta.validation.Valid;
 
 @Controller
@@ -19,17 +18,18 @@ public class ServicioController {
     @Autowired
     private ServicioService servicioService;
 
-    @PostMapping("/registro-servicio")
+    // ===== THYMELEAF =====
+
+    @GetMapping("/registro-servicio-form")
+    public String mostrarFormularioRegistro(Model model) {
+        model.addAttribute("servicio", new ServicioDTO());
+        return "servicio-registro";
+    }
+
+    @PostMapping("/servicio-registro")
     public String procesarFormulario(@Valid @ModelAttribute("servicio") ServicioDTO dto,
-            BindingResult result,
-            Model model) {
+                                    BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "servicio-registro";
-        }
-        try {
-            servicioService.validarNombreDuplicado(dto.getNombre(), null);
-        } catch (IllegalArgumentException ex) {
-            result.rejectValue("nombre", "error.servicio", ex.getMessage());
             return "servicio-registro";
         }
         try {
@@ -41,54 +41,26 @@ public class ServicioController {
         return "redirect:/api/servicios/lista";
     }
 
-    @PutMapping("/{id}")
-    @ResponseBody
-    public Servicio updateServicio(@PathVariable Long id, @Valid @RequestBody ServicioDTO dto) {
-        return servicioService.updateServicio(id, dto);
-    }
-
-    @GetMapping("/{id:\\d+}")
-    @ResponseBody
-    public Servicio getServicio(@PathVariable Long id) {
-        return servicioService.getServicioById(id);
-    }
-
-    @GetMapping("/registro-servicio-form")
-    public String mostrarFormularioRegistro(Model model) {
-        model.addAttribute("servicio", new ServicioDTO());
-        return "servicio-registro";
-    }
-
     @GetMapping("/update/{id}")
     public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
-        Servicio servicio = servicioService.getServicioById(id);
-
-        ServicioDTO dto = new ServicioDTO();
-        dto.setIdServicio(servicio.getIdServicio());
-        dto.setNombre(servicio.getNombre());
-        dto.setActivo(servicio.isActivo());
-        dto.setPrecioBase(servicio.getPrecioBase());
-
+        ServicioDTO dto = servicioService.entityToDto(servicioService.getServicioById(id));
         model.addAttribute("servicio", dto);
         return "servicio-update";
     }
 
     @PostMapping("/actualizar/{id}")
     public String actualizarServicio(@PathVariable Long id,
-            @Valid @ModelAttribute("servicio") ServicioDTO dto,
-            BindingResult result,
-            Model model) {
+                                     @Valid @ModelAttribute("servicio") ServicioDTO dto,
+                                     BindingResult result) {
         if (result.hasErrors()) {
             return "servicio-update";
         }
-
         try {
             servicioService.updateServicio(id, dto);
         } catch (IllegalArgumentException ex) {
             result.rejectValue("nombre", "error.servicio", ex.getMessage());
             return "servicio-update";
         }
-
         return "redirect:/api/servicios/lista";
     }
 
@@ -102,5 +74,20 @@ public class ServicioController {
     public String eliminarServicio(@PathVariable Long id) {
         servicioService.deleteServicio(id);
         return "redirect:/api/servicios/lista";
+    }
+
+    // ===== REST API =====
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public ServicioDTO getServicio(@PathVariable Long id) {
+        return servicioService.entityToDto(servicioService.getServicioById(id));
+    }
+
+    @PutMapping("/{id}")
+    @ResponseBody
+    public ServicioDTO updateServicioRest(@PathVariable Long id, @Valid @RequestBody ServicioDTO dto) {
+        Servicio updated = servicioService.updateServicio(id, dto);
+        return servicioService.entityToDto(updated);
     }
 }

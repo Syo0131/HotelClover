@@ -4,15 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "ServicioCategoria")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class ServicioCategoria {
 
     @Id
@@ -29,8 +27,8 @@ public class ServicioCategoria {
 
     @NotNull(message = "El precio es obligatorio")
     @Positive(message = "El precio debe ser mayor a 0")
-    @Column(name = "Precio", nullable = false)
-    private Double precio;
+    @Column(name = "Precio", nullable = false, precision = 10, scale = 2)
+    private BigDecimal precio;
 
     @NotNull(message = "La fecha de aplicación es obligatoria")
     @Column(name = "Fecha_aplicacion", nullable = false)

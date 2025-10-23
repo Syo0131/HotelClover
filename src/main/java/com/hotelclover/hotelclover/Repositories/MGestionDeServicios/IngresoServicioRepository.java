@@ -10,9 +10,11 @@ import java.util.List;
 @Repository
 public interface IngresoServicioRepository extends JpaRepository<IngresoServicio, Long> {
 
-    List<IngresoServicio> findByIdServicio(Long idServicio);
+    List<IngresoServicio> findByServicio_IdServicio(Long idServicio);
 
     List<IngresoServicio> findByIdCategoria(Long idCategoria);
 
     List<IngresoServicio> findByPeriodo(LocalDate periodo);
+
+    List<IngresoServicio> findByPeriodoBetween(LocalDate start, LocalDate end);
 }

@@ -9,7 +9,9 @@ import java.util.List;
 @Repository
 public interface ServicioCategoriaRepository extends JpaRepository<ServicioCategoria, Long> {
 
-    List<ServicioCategoria> findByServicioIdServicio(Long idServicio);
+    List<ServicioCategoria> findByServicio_IdServicio(Long idServicio);
 
     List<ServicioCategoria> findByIdCategoria(Long idCategoria);
+
+    List<ServicioCategoria> findByServicio_IdServicioAndIdCategoria(Long idServicio, Long idCategoria);
 }

@@ -4,24 +4,22 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "IngresosServicios")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class IngresoServicio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "El ID del servicio es obligatorio")
-    @Column(name = "idServicio", nullable = false)
-    private Long idServicio;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idServicio", nullable = false)
+    private Servicio servicio;
 
     @NotNull(message = "El ID de la categoría es obligatorio")
     @Column(name = "idCategoria", nullable = false)
@@ -29,8 +27,8 @@ public class IngresoServicio {
 
     @NotNull(message = "El ingreso es obligatorio")
     @PositiveOrZero(message = "El ingreso debe ser igual o mayor a 0")
-    @Column(name = "Ingresos", nullable = false)
-    private Double ingresos;
+    @Column(name = "Ingresos", nullable = false, precision = 10, scale = 2)
+    private BigDecimal ingresos;
 
     @NotNull(message = "El periodo es obligatorio")
     @Column(name = "Periodo", nullable = false)

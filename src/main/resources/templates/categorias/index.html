@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="mb-3 text-center">Categorías de Habitación</h2>
+
+    <form class="row mb-4" method="get" th:action="@{/categorias}">
+        <div class="col-md-3">
+            <input type="text" name="q" class="form-control" placeholder="Buscar por nombre">
+        </div>
+        <div class="col-md-2">
+            <select name="estado" class="form-select">
+                <option value="">Todos</option>
+                <option value="ACTIVO">Activo</option>
+                <option value="INACTIVO">Inactivo</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="number" name="minTarifa" class="form-control" placeholder="Tarifa mínima" step="0.01">
+        </div>
+        <div class="col-md-2">
+            <input type="number" name="maxTarifa" class="form-control" placeholder="Tarifa máxima" step="0.01">
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">Buscar</button>
+        </div>
+    </form>
+
+    <div class="mb-3">
+        <a th:href="@{/categorias/crear}" class="btn btn-success">+ Nueva Categoría</a>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Tarifa por Noche</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="categoria : ${categorias}">
+            <td th:text="${categoria.idCategoriaHabitacion}"></td>
+            <td th:text="${categoria.nombre}"></td>
+            <td th:text="${categoria.tarifaNoche}"></td>
+            <td>
+                <span th:text="${categoria.estado}" th:classappend="${categoria.estado == 'ACTIVO'} ? 'text-success' : 'text-danger'"></span>
+            </td>
+            <td>
+                <a th:href="@{/categorias/editar/{id}(id=${categoria.idCategoriaHabitacion})}" class="btn btn-warning btn-sm">Editar</a>
+                <a th:href="@{/categorias/eliminar/{id}(id=${categoria.idCategoriaHabitacion})}" class="btn btn-danger btn-sm">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>z

@@ -1,8 +1,8 @@
 package com.hotelclover.hotelclover.Services;
 
 import com.hotelclover.hotelclover.DTOs.CategoriaHabitacion.*;
-import com.hotelclover.hotelclover.Mappers.CategoriaHabitacionMapper;
 import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
+import com.hotelclover.hotelclover.Models.CategoriaHabitacion.EstadoCategoria;
 import com.hotelclover.hotelclover.Repositories.CategoriaHabitacionRepository;
 import com.hotelclover.hotelclover.Repositories.HabitacionRepository;
 import org.springframework.data.domain.*;
@@ -16,14 +16,11 @@ public class CategoriaHabitacionService {
 
     private final CategoriaHabitacionRepository categoriaRepo;
     private final HabitacionRepository habitacionRepo;
-    private final CategoriaHabitacionMapper mapper;
 
     public CategoriaHabitacionService(CategoriaHabitacionRepository categoriaRepo,
-                                      HabitacionRepository habitacionRepo,
-                                      CategoriaHabitacionMapper mapper) {
+                                      HabitacionRepository habitacionRepo) {
         this.categoriaRepo = categoriaRepo;
         this.habitacionRepo = habitacionRepo;
-        this.mapper = mapper;
     }
 
     @Transactional
@@ -31,9 +28,9 @@ public class CategoriaHabitacionService {
         if (categoriaRepo.existsByNombreIgnoreCase(dto.nombre())) {
             throw new IllegalArgumentException("Ya existe una categoría con ese nombre.");
         }
-        CategoriaHabitacion entity = mapper.toEntity(dto);
+        CategoriaHabitacion entity = toEntity(dto);
         entity = categoriaRepo.save(entity);
-        return mapper.toDto(entity);
+        return toDto(entity);
     }
 
     @Transactional
@@ -45,26 +42,26 @@ public class CategoriaHabitacionService {
             throw new IllegalArgumentException("Ya existe otra categoría con ese nombre.");
         }
 
-        mapper.updateEntityFromDto(dto, entity);
+        updateEntityFromDto(dto, entity);
         entity = categoriaRepo.save(entity);
-        return mapper.toDto(entity);
+        return toDto(entity);
     }
 
     @Transactional(readOnly = true)
     public CategoriaHabitacionDto obtener(Long id) {
         var entity = categoriaRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Categoría no encontrada."));
-        return mapper.toDto(entity);
+        return toDto(entity);
     }
 
     @Transactional(readOnly = true)
     public Page<CategoriaHabitacionDto> buscar(String q,
-                                               CategoriaHabitacion.EstadoCategoria estado,
+                                               EstadoCategoria estado,
                                                BigDecimal minTarifa,
                                                BigDecimal maxTarifa,
                                                Pageable pageable) {
         return categoriaRepo.search(q, estado, minTarifa, maxTarifa, pageable)
-                .map(mapper::toDto);
+                .map(this::toDto);
     }
 
     @Transactional
@@ -75,5 +72,42 @@ public class CategoriaHabitacionService {
             throw new IllegalStateException("No se puede eliminar: hay habitaciones asociadas (" + vinculadas + ").");
         }
         categoriaRepo.deleteById(id);
+    }
+
+    
+
+    private CategoriaHabitacion toEntity(CrearCategoriaHabitacionDto dto) {
+        var entity = new CategoriaHabitacion();
+        entity.setNombre(dto.nombre());
+        entity.setDescripcion(dto.descripcion());
+        entity.setTarifaNoche(dto.tarifaNoche());
+        entity.setCaracteristicas(dto.caracteristicas());
+        entity.setEstado(dto.estado());
+        return entity;
+    }
+
+    private void updateEntityFromDto(ActualizarCategoriaHabitacionDto dto, CategoriaHabitacion entity) {
+        entity.setNombre(dto.nombre());
+        entity.setDescripcion(dto.descripcion());
+        entity.setTarifaNoche(dto.tarifaNoche());
+        entity.setCaracteristicas(dto.caracteristicas());
+        entity.setEstado(dto.estado());
+    }
+
+    private CategoriaHabitacionDto toDto(CategoriaHabitacion entity) {
+        Long id = entity.getIdCategoriaHabitacion(); 
+        Integer total = null;
+        if (id != null) {
+            total = Math.toIntExact(habitacionRepo.countByCategoria_IdCategoriaHabitacion(id));
+        }
+        return new CategoriaHabitacionDto(
+                id,
+                entity.getNombre(),
+                entity.getDescripcion(),
+                entity.getTarifaNoche(),
+                entity.getCaracteristicas(),
+                entity.getEstado(),
+                total
+        );
     }
 }

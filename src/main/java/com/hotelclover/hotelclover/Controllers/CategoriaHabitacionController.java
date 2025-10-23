@@ -4,22 +4,30 @@ import com.hotelclover.hotelclover.DTOs.CategoriaHabitacion.*;
 import com.hotelclover.hotelclover.DTOs.Common.PageResponse;
 import com.hotelclover.hotelclover.Models.CategoriaHabitacion.EstadoCategoria;
 import com.hotelclover.hotelclover.Services.CategoriaHabitacionService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+
+@Controller
 @RequestMapping("/api/categorias")
 public class CategoriaHabitacionController {
+    
+    @Autowired
+    CategoriaHabitacionService service ; 
 
-    private final CategoriaHabitacionService service;
 
-    public CategoriaHabitacionController(CategoriaHabitacionService service) {
-        this.service = service;
-    }
+
+    
+    
 
     @PostMapping
     public ResponseEntity<CategoriaHabitacionDto> crear(@Validated @RequestBody CrearCategoriaHabitacionDto dto) {

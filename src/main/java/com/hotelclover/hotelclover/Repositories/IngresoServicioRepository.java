@@ -1,6 +1,6 @@
-package com.hotelclover.hotelclover.Repositories.MGestionDeServicios;
+package com.hotelclover.hotelclover.Repositories;
 
-import com.hotelclover.hotelclover.Models.MGestionDeServicios.IngresoServicio;
+import com.hotelclover.hotelclover.Models.IngresoServicio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,5 +16,5 @@ public interface IngresoServicioRepository extends JpaRepository<IngresoServicio
 
     List<IngresoServicio> findByPeriodo(LocalDate periodo);
 
-    List<IngresoServicio> findByPeriodoBetween(LocalDate start, LocalDate end);
+    List<IngresoServicio> findByPeriodoBetween(LocalDate inicio, LocalDate fin);
 }

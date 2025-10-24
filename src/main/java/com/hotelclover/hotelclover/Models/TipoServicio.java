@@ -1,4 +1,4 @@
-package com.hotelclover.hotelclover.Models.MGestionDeServicios;
+package com.hotelclover.hotelclover.Models;
 
 public enum TipoServicio {
     ALOJAMIENTO,

@@ -1,10 +1,10 @@
 package com.hotelclover.hotelclover;
 
-import com.hotelclover.hotelclover.Dto.MGestionDeServicios.ServicioDTO;
-import com.hotelclover.hotelclover.Models.MGestionDeServicios.Servicio;
-import com.hotelclover.hotelclover.Models.MGestionDeServicios.TipoServicio;
-import com.hotelclover.hotelclover.Repositories.MGestionDeServicios.ServicioRepository;
-import com.hotelclover.hotelclover.Services.MGestionDeServicios.ServicioService;
+import com.hotelclover.hotelclover.Dtos.ServicioDTO;
+import com.hotelclover.hotelclover.Models.Servicio;
+import com.hotelclover.hotelclover.Models.TipoServicio;
+import com.hotelclover.hotelclover.Repositories.ServicioRepository;
+import com.hotelclover.hotelclover.Services.ServicioService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

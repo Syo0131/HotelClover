@@ -1,6 +1,6 @@
-package com.hotelclover.hotelclover.Repositories.MGestionDeServicios;
+package com.hotelclover.hotelclover.Repositories;
 
-import com.hotelclover.hotelclover.Models.MGestionDeServicios.ServicioCategoria;
+import com.hotelclover.hotelclover.Models.ServicioCategoria;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +12,4 @@ public interface ServicioCategoriaRepository extends JpaRepository<ServicioCateg
     List<ServicioCategoria> findByServicio_IdServicio(Long idServicio);
 
     List<ServicioCategoria> findByIdCategoria(Long idCategoria);
-
-    List<ServicioCategoria> findByServicio_IdServicioAndIdCategoria(Long idServicio, Long idCategoria);
 }

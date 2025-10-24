@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/main}">
+<head>
+<title th:text="${pageTitle} ?: 'Lista de servicios'">Lista de servicios</title>
+</head>
+<body>
+<div layout:fragment="content" class="p-6">
+<div class="flex justify-between items-center mb-4">
+<h1 class="text-2xl font-bold">Servicios</h1>
+<a th:href="@{/api/servicios/nuevo}" class="px-4 py-2 rounded bg-caribbean-green-500 text-white">Crear servicio</a>
+</div>
+
+
+<table class="w-full table-auto border-collapse">
+<thead>
+<tr>
+<th class="text-left p-2">ID</th>
+<th class="text-left p-2">Nombre</th>
+<th class="text-left p-2">Tipo</th>
+<th class="text-left p-2">Precio base</th>
+<th class="text-left p-2">Estado</th>
+<th class="p-2">Acciones</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="s : ${servicios}">
+<td class="p-2" th:text="${s.idServicio}">1</td>
+<td class="p-2" th:text="${s.nombre}">Habitación</td>
+<td class="p-2" th:text="${s.tipoServicio}">ALOJAMIENTO</td>
+<td class="p-2" th:text="${s.precioBase}">50.00</td>
+<td class="p-2" th:text="${s.estado} ? 'Activo' : 'Inactivo'">Activo</td>
+<td class="p-2">
+<a th:href="@{/api/servicios/editar/{id}(id=${s.idServicio})}" class="mr-2 text-sm">Editar</a>
+<form th:action="@{/api/servicios/eliminar/{id}(id=${s.idServicio})}" method="post" style="display:inline">
+
+<button type="submit" class="text-sm text-red-600">Eliminar</button>
+</form>
+</td>
+</tr>
+<tr th:if="${#lists.isEmpty(servicios)}">
+<td colspan="6" class="p-4 text-center text-slate-600">No hay servicios registrados.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>

@@ -1,16 +1,20 @@
-package com.hotelclover.hotelclover.Models.MGestionDeServicios;
+package com.hotelclover.hotelclover.Models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "ServicioCategoria")
+@Table(name = "servicio_categoria", schema = "gestion_servicios")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class ServicioCategoria {
 
     @Id
@@ -21,16 +25,20 @@ public class ServicioCategoria {
     @JoinColumn(name = "idServicio", nullable = false)
     private Servicio servicio;
 
-    @NotNull(message = "El ID de la categoría es obligatorio")
+    @NotNull
     @Column(name = "idCategoria", nullable = false)
     private Long idCategoria;
 
-    @NotNull(message = "El precio es obligatorio")
-    @Positive(message = "El precio debe ser mayor a 0")
+    @NotNull
+    @DecimalMin(value = "0.01")
     @Column(name = "Precio", nullable = false, precision = 10, scale = 2)
     private BigDecimal precio;
 
-    @NotNull(message = "La fecha de aplicación es obligatoria")
+
+    @NotNull
     @Column(name = "Fecha_aplicacion", nullable = false)
     private LocalDate fechaAplicacion;
+
+    @Column(name = "fecha_creacion", updatable = false)
+    private LocalDateTime fechaCreacion;
 }

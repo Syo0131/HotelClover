@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/main}">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Actualizar Cliente - Hotel Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="bg-green-50 min-h-screen flex items-center justify-center py-10">
+            <div class="bg-white shadow-lg rounded-lg w-full max-w-4xl flex overflow-hidden">
+
+                <div class="bg-green-600 text-white w-1/2 p-10 flex flex-col justify-center">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 10l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                        </svg>
+                        <h1 class="text-2xl font-bold">Hotel Management System</h1>
+                    </div>
+                    <p class="text-lg">Actualiza tus datos personales para mantener tu cuenta al día.</p>
+                </div>
+
+                <div class="w-1/2 p-10">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Actualizar datos</h2>
+                    <p class="text-sm text-gray-600 mb-6">Modifica tus datos personales</p>
+
+                    <form th:action="@{/api/clientes/actualizar/{id}(id=${cliente.id})}" th:object="${cliente}"
+                        method="post" class="space-y-4">
+
+                        <div th:if="${#fields.hasErrors()}">
+                            <ul class="text-red-600 text-sm mb-4">
+                                <li th:each="err : ${#fields.errors()}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+                            <input type="text" th:field="*{nombre}" id="nombre" maxlength="150"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
+                        </div>
+
+                        <div>
+                            <label for="apellido" class="block text-sm font-medium text-gray-700">Apellido</label>
+                            <input type="text" th:field="*{apellido}" id="apellido" maxlength="150"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Correo
+                                electrónico</label>
+                            <input type="email" th:field="*{email}" id="email" maxlength="150"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
+                        </div>
+
+                        <div>
+                            <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+                            <input type="tel" th:field="*{telefono}" id="telefono" pattern="\+?[0-9]{10,15}"
+                                maxlength="15"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
+                        </div>
+
+                        <div>
+                            <label for="contrasena" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                            <input type="password" th:field="*{contrasena}" id="contrasena" maxlength="150"
+                                placeholder="Deja vacío si no deseas cambiarla"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
+                            <p class="text-xs text-gray-500 mt-1">Deja este campo vacío si no deseas cambiar tu
+                                contraseña.</p>
+                        </div>
+
+                        <div>
+                            <label for="direccion" class="block text-sm font-medium text-gray-700">Dirección</label>
+                            <input type="text" th:field="*{direccion}" id="direccion" maxlength="255"
+                                placeholder="Ej. Calle 123, Zona Colonial, Santo Domingo"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
+                            <p th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"
+                                class="text-red-600 text-sm mt-1"></p>
+                        </div>
+
+                        <div>
+                            <label for="fechaNacimiento" class="block text-sm font-medium text-gray-700">Fecha de
+                                nacimiento</label>
+                            <input type="date" th:field="*{fechaNacimiento}" id="fechaNacimiento"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500" />
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition">
+                            Guardar cambios
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

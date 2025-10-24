@@ -1,6 +1,8 @@
 package com.hotelclover.hotelclover.Services.MGestionDeTarifas;
 
+import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
 import com.hotelclover.hotelclover.Models.Tarifa;
+import com.hotelclover.hotelclover.Repositories.CategoriaHabitacionRepository;
 import com.hotelclover.hotelclover.Repositories.MGestionDeTarifas.TarifasRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import java.util.List;
 public class TarifasService {
 
     private final TarifasRepository tarifasRepository;
+    private final CategoriaHabitacionRepository categoriaHabitacionRepository;
 
     public List<Tarifa> getAllTarifas() {
         return (List<Tarifa>) tarifasRepository.findAll();
@@ -25,6 +28,11 @@ public class TarifasService {
 
     public Tarifa saveTarifa(Tarifa tarifa) {
         tarifa.setFechaCreacion(LocalDateTime.now());
+        Long idCategoria = tarifa.getCategoriaHabitacion().getIdCategoriaHabitacion();
+        CategoriaHabitacion categoria = categoriaHabitacionRepository.findById(idCategoria)
+                .orElseThrow(() -> new IllegalArgumentException("Categoría no encontrada con ID: " + idCategoria));
+        tarifa.setCategoriaHabitacion(categoria);
+
         return tarifasRepository.save(tarifa);
     }
 
@@ -43,5 +51,9 @@ public class TarifasService {
 
     public void deleteTarifa(Long id) {
         tarifasRepository.deleteById(id);
+    }
+
+    public List<CategoriaHabitacion> getAllCategorias() {
+        return categoriaHabitacionRepository.findAll();
     }
 }

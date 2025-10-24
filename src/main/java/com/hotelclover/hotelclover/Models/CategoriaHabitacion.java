@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-
 @Entity
 @Table(name = "CategoriasHabitaciones")
 
@@ -45,9 +44,15 @@ public class CategoriaHabitacion {
     @Column(name = "estado", nullable = false, length = 10)
     private EstadoCategoria estado;
 
-    public enum EstadoCategoria { ACTIVA, INACTIVA }
+    public enum EstadoCategoria {
+        ACTIVA, INACTIVA
+    }
 
     @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
-    @ToString.Exclude @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Habitacion> habitaciones = new HashSet<>();
+
+    @OneToMany(mappedBy = "categoriaHabitacion", fetch = FetchType.LAZY)
+    private Set<Tarifa> tarifas = new HashSet<>();
 }

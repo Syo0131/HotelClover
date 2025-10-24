@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/api/clientes/registro-cliente-form",
                                 "/api/clientes/registro-cliente")
                         .permitAll()
-                        .requestMatchers("/tarifas/crear").hasAuthority("ADMINISTRADOR")
+                        .requestMatchers("/tarifas/crear").hasAnyAuthority("ADMINISTRADOR", "RECEPCIONISTA")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/api/clientes/login")

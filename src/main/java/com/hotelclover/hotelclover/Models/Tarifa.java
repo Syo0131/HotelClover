@@ -21,8 +21,8 @@ public class Tarifa {
     @Column(name = "id_tarifa")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_categoria_habitacion", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "id_categoria_habitacion")
     private CategoriaHabitacion categoriaHabitacion;
 
     @DecimalMin(value = "0.0", inclusive = true, message = "El precio no puede ser menor que 0")

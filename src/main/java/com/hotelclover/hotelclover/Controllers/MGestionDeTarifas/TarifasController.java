@@ -21,6 +21,7 @@ public class TarifasController {
     @GetMapping("/crear")
     public String mostrarFormularioTarifa(Model model) {
         model.addAttribute("tarifa", new Tarifa());
+        model.addAttribute("categorias", tarifasService.getAllCategorias());
         return "Tarifa/create";
     }
 
@@ -34,13 +35,14 @@ public class TarifasController {
     public String listarTarifas(Model model) {
         List<Tarifa> tarifas = tarifasService.getAllTarifas();
         model.addAttribute("tarifas", tarifas);
-        return "Tarifa/tarifa"; 
+        return "Tarifa/tarifa";
     }
 
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
         Tarifa tarifa = tarifasService.obtenerPorId(id);
         model.addAttribute("tarifa", tarifa);
+        model.addAttribute("categorias", tarifasService.getAllCategorias());
         return "Tarifa/update";
     }
 

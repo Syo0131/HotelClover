@@ -9,55 +9,56 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-  <div layout:fragment="content" class="p-8 bg-green-50 min-h-screen">
-    <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-bold text-gray-800">Listado de Tarifas</h1>
-      <a href="/tarifas/crear"
-        class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">Agregar nueva tarifa</a>
-    </div>
-
-    <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-      <thead class="bg-green-600 text-white">
-        <tr>
-          <th class="px-4 py-2 text-left">Categoría</th>
-          <th class="px-4 py-2 text-left">Precio</th>
-          <th class="px-4 py-2 text-left">Moneda</th>
-          <th class="px-4 py-2 text-left">Impuesto</th>
-          <th class="px-4 py-2 text-left">Temporada</th>
-          <th class="px-4 py-2 text-left">Estado</th>
-          <th class="px-4 py-2 text-left">Noches</th>
-          <th class="px-4 py-2 text-left">Fecha creación</th>
-          <th class="px-4 py-2 text-left">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="tarifa : ${tarifas}" class="border-b hover:bg-green-50">
-          <td class="px-4 py-2" th:text="${tarifa.categoriaHabitacion.nombre}">Categoría</td>
-          <td class="px-4 py-2" th:text="${tarifa.precio}">Precio</td>
-          <td class="px-4 py-2" th:text="${tarifa.moneda}">Moneda</td>
-          <td class="px-4 py-2" th:text="${tarifa.impuesto}">Impuesto</td>
-          <td class="px-4 py-2" th:text="${tarifa.temporada}">Temporada</td>
-          <td class="px-4 py-2" th:text="${tarifa.estadoTarifa}">Estado</td>
-          <td class="px-4 py-2" th:text="${tarifa.numeroNoches}">Noches</td>
-          <td class="px-4 py-2" th:text="${#temporals.format(tarifa.fechaCreacion, 'dd/MM/yyyy HH:mm')}">Fecha</td>
-          <td class="px-4 py-2 flex gap-2">
-            <a th:href="@{/tarifas/editar/{id}(id=${tarifa.id})}"
-              class="bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 transition">
-              Editar
-            </a>
-
-            <form th:action="@{/tarifas/eliminar/{id}(id=${tarifa.id})}" method="post"
-              onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta tarifa?');">
-              <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition">
-                Eliminar
-              </button>
-            </form>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<main layout:fragment="content" class="p-8 bg-green-50 min-h-screen">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Listado de Tarifas</h1>
+    <a href="/tarifas/crear" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">Agregar
+      nueva tarifa</a>
   </div>
-</body>
+
+  <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+    <thead class="bg-green-600 text-white">
+      <tr>
+        <th class="px-4 py-2 text-left">Categoría</th>
+        <th class="px-4 py-2 text-left">Precio</th>
+        <th class="px-4 py-2 text-left">Moneda</th>
+        <th class="px-4 py-2 text-left">Impuesto</th>
+        <th class="px-4 py-2 text-left">Temporada</th>
+        <th class="px-4 py-2 text-left">Estado</th>
+        <th class="px-4 py-2 text-left">Noches</th>
+        <th class="px-4 py-2 text-left">Fecha creación</th>
+        <th class="px-4 py-2 text-left">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="tarifa : ${tarifas}" class="border-b hover:bg-green-50">
+        <td class="px-4 py-2">
+          <span th:if="${tarifa.categoriaHabitacion != null}" th:text="${tarifa.categoriaHabitacion.nombre}"></span>
+          <span th:unless="${tarifa.categoriaHabitacion != null}">Sin categoría</span>
+        </td>
+        <td class="px-4 py-2" th:text="${tarifa.precio}">Precio</td>
+        <td class="px-4 py-2" th:text="${tarifa.moneda}">Moneda</td>
+        <td class="px-4 py-2" th:text="${tarifa.impuesto}">Impuesto</td>
+        <td class="px-4 py-2" th:text="${tarifa.temporada}">Temporada</td>
+        <td class="px-4 py-2" th:text="${tarifa.estadoTarifa}">Estado</td>
+        <td class="px-4 py-2" th:text="${tarifa.numeroNoches}">Noches</td>
+        <td class="px-4 py-2" th:text="${#temporals.format(tarifa.fechaCreacion, 'dd/MM/yyyy HH:mm')}">Fecha</td>
+        <td class="px-4 py-2 flex gap-2">
+          <a th:href="@{/tarifas/editar/{id}(id=${tarifa.id})}"
+            class="bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 transition">
+            Editar
+          </a>
+
+          <form th:action="@{/tarifas/eliminar/{id}(id=${tarifa.id})}" method="post"
+            onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta tarifa?');">
+            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition">
+              Eliminar
+            </button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>
 
 </html>

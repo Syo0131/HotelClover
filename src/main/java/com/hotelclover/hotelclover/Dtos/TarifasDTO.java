@@ -8,9 +8,8 @@ import lombok.Data;
 @Data
 public class TarifasDTO {
 
-    @NotBlank(message = "La categoría de habitación es obligatoria")
-    @Size(max = 100, message = "La categoría no debe exceder 100 caracteres")
-    private String categoriaHabitacion;
+    @NotNull(message = "La categoría de habitación es obligatoria")
+    private Long idCategoriaHabitacion;
 
     @NotNull(message = "El precio es obligatorio")
     @DecimalMin(value = "0.00", inclusive = true, message = "El precio no puede ser menor que 0")
@@ -31,14 +30,12 @@ public class TarifasDTO {
     private Integer numeroNoches;
 
     @NotBlank(message = "La temporada es obligatoria")
-    @Pattern(regexp = "alta|media|baja", flags = Pattern.Flag.CASE_INSENSITIVE,
-             message = "La temporada debe ser 'alta', 'media' o 'baja'")
+    @Pattern(regexp = "alta|media|baja", flags = Pattern.Flag.CASE_INSENSITIVE, message = "La temporada debe ser 'alta', 'media' o 'baja'")
     @Size(max = 20, message = "La temporada no debe exceder 20 caracteres")
     private String temporada;
 
     @NotBlank(message = "El estado es obligatorio")
-    @Pattern(regexp = "activa|inactiva", flags = Pattern.Flag.CASE_INSENSITIVE,
-             message = "El estado debe ser 'activa' o 'inactiva'")
+    @Pattern(regexp = "activa|inactiva", flags = Pattern.Flag.CASE_INSENSITIVE, message = "El estado debe ser 'activa' o 'inactiva'")
     @Size(max = 10, message = "El estado no debe exceder 10 caracteres")
     private String estadoTarifa;
 }

@@ -10,7 +10,6 @@ import java.util.List;
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
-    // Métodos de búsqueda personalizados
     List<Reserva> findByClienteIdCliente(Long idCliente);
 
     List<Reserva> findByCategoriaHabitacionId(Long idCategoria);

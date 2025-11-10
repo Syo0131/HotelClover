@@ -22,9 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Implementación del servicio de reservas
- */
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -152,10 +150,6 @@ public class ReservaServiceImpl implements ReservaService {
                 .map(reservaMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
-
-    /**
-     * Valida que las fechas de reserva sean correctas
-     */
     private void validarFechas(LocalDate fechaEntrada, LocalDate fechaSalida) {
         if (fechaEntrada.isAfter(fechaSalida)) {
             throw new BadRequestException(

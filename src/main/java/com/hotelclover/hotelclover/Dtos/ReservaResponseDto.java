@@ -9,10 +9,6 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/**
- * DTO para respuesta de reserva con información completa
- * Utiliza objetos anidados para mejor escalabilidad
- */
 @Data
 @Builder
 @NoArgsConstructor
@@ -38,9 +34,6 @@ public class ReservaResponseDto {
     // Información adicional calculada
     private Integer diasEstancia;
 
-    /**
-     * DTO interno para información de categoría de habitación
-     */
     @Data
     @Builder
     @NoArgsConstructor
@@ -51,9 +44,6 @@ public class ReservaResponseDto {
         private String descripcion;
     }
 
-    /**
-     * DTO interno para información de cliente
-     */
     @Data
     @Builder
     @NoArgsConstructor

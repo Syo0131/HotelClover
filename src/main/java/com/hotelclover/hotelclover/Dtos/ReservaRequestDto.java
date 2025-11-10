@@ -10,9 +10,6 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/**
- * DTO para crear o actualizar una reserva
- */
 @Data
 @Builder
 @NoArgsConstructor

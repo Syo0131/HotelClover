@@ -11,16 +11,9 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-/**
- * Mapper para convertir entre Reserva y DTOs
- * Utiliza patrón Builder para crear objetos anidados
- */
 @Component
 public class ReservaMapper {
 
-    /**
-     * Convierte una entidad Reserva a ReservaResponseDto con objetos anidados
-     */
     public ReservaResponseDto toResponseDto(Reserva reserva) {
         if (reserva == null) {
             return null;
@@ -61,10 +54,6 @@ public class ReservaMapper {
                 .build();
     }
 
-    /**
-     * Convierte un ReservaRequestDto a una entidad Reserva
-     * Usa el patrón Builder para crear la entidad
-     */
     public Reserva toEntity(ReservaRequestDto dto, CategoriaHabitacion categoria, Clientes cliente) {
         if (dto == null) {
             return null;
@@ -79,9 +68,6 @@ public class ReservaMapper {
                 .build();
     }
 
-    /**
-     * Actualiza una entidad Reserva existente con datos de ReservaRequestDto
-     */
     public void updateEntityFromDto(ReservaRequestDto dto, Reserva reserva,
             CategoriaHabitacion categoria, Clientes cliente) {
         if (dto == null || reserva == null) {

@@ -79,7 +79,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaEntrada(LocalDate.now().plusDays(5))
                                 .fechaSalida(LocalDate.now().plusDays(10))
                                 .numeroDeHuespedes(2)
-                                .idCategoriaHabitacion(categoriaTest.getId())
+                                .idCategoriaHabitacion(categoriaTest.getIdCategoriaHabitacion())
                                 .idCliente(clienteTest.getId())
                                 .build();
 
@@ -104,7 +104,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaEntrada(LocalDate.now().plusDays(10))
                                 .fechaSalida(LocalDate.now().plusDays(5))
                                 .numeroDeHuespedes(2)
-                                .idCategoriaHabitacion(categoriaTest.getId())
+                                .idCategoriaHabitacion(categoriaTest.getIdCategoriaHabitacion())
                                 .idCliente(clienteTest.getId())
                                 .build();
 
@@ -124,7 +124,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaEntrada(LocalDate.now().plusDays(5))
                                 .fechaSalida(LocalDate.now().plusDays(10))
                                 .numeroDeHuespedes(2)
-                                .idCategoriaHabitacion(categoriaTest.getId())
+                                .idCategoriaHabitacion(categoriaTest.getIdCategoriaHabitacion())
                                 .idCliente(99999L) // ID que no existe
                                 .build();
 
@@ -144,7 +144,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaEntrada(LocalDate.now().plusDays(5))
                                 .fechaSalida(LocalDate.now().plusDays(10))
                                 .numeroDeHuespedes(2)
-                                .idCategoriaHabitacion(categoriaTest.getId())
+                                .idCategoriaHabitacion(categoriaTest.getIdCategoriaHabitacion())
                                 .idCliente(clienteTest.getId())
                                 .build();
 
@@ -166,7 +166,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaEntrada(LocalDate.now().plusDays(5))
                                 .fechaSalida(LocalDate.now().plusDays(10))
                                 .numeroDeHuespedes(2)
-                                .idCategoriaHabitacion(categoriaTest.getId())
+                                .idCategoriaHabitacion(categoriaTest.getIdCategoriaHabitacion())
                                 .idCliente(clienteTest.getId())
                                 .build();
 
@@ -194,7 +194,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaEntrada(LocalDate.now().plusDays(5))
                                 .fechaSalida(LocalDate.now().plusDays(10))
                                 .numeroDeHuespedes(2)
-                                .idCategoriaHabitacion(categoriaTest.getId())
+                                .idCategoriaHabitacion(categoriaTest.getIdCategoriaHabitacion())
                                 .idCliente(clienteTest.getId())
                                 .build();
 
@@ -212,7 +212,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaEntrada(LocalDate.now().plusDays(6))
                                 .fechaSalida(LocalDate.now().plusDays(11))
                                 .numeroDeHuespedes(3)
-                                .idCategoriaHabitacion(categoriaTest.getId())
+                                .idCategoriaHabitacion(categoriaTest.getIdCategoriaHabitacion())
                                 .idCliente(clienteTest.getId())
                                 .build();
 
@@ -232,7 +232,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaEntrada(LocalDate.now().plusDays(5))
                                 .fechaSalida(LocalDate.now().plusDays(10))
                                 .numeroDeHuespedes(2)
-                                .idCategoriaHabitacion(categoriaTest.getId())
+                                .idCategoriaHabitacion(categoriaTest.getIdCategoriaHabitacion())
                                 .idCliente(clienteTest.getId())
                                 .build();
 
@@ -262,7 +262,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaEntrada(LocalDate.now().plusDays(5))
                                 .fechaSalida(LocalDate.now().plusDays(10))
                                 .numeroDeHuespedes(2)
-                                .idCategoriaHabitacion(categoriaTest.getId())
+                                .idCategoriaHabitacion(categoriaTest.getIdCategoriaHabitacion())
                                 .idCliente(clienteTest.getId())
                                 .build();
 

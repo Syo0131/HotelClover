@@ -1,17 +1,22 @@
 package com.hotelclover.hotelclover.Models;
 
-
 import java.util.Date;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Reservas")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Reserva {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,14 +37,16 @@ public class Reserva {
 
     // Relación ManyToOne con CategoriaHabitacion
     // Muchas reservas pueden tener la misma categoría de habitación
-    @ManyToOne
+    // EAGER: Siempre carga la categoría porque se necesita en la respuesta
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_categoria_habitacion", nullable = false)
     @NotNull(message = "La categoría de habitación no puede ser nula")
     private CategoriaHabitacion categoriaHabitacion;
 
     // Relación ManyToOne con Cliente
     // Muchas reservas pueden pertenecer al mismo cliente
-    @ManyToOne
+    // EAGER: Siempre carga el cliente porque se necesita en la respuesta
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cliente", nullable = false)
     @NotNull(message = "El cliente no puede ser nulo")
     private Usuario cliente;

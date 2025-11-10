@@ -4,7 +4,7 @@ import com.hotelclover.hotelclover.Dtos.ReservaRequestDto;
 import com.hotelclover.hotelclover.Dtos.ReservaResponseDto;
 import com.hotelclover.hotelclover.Models.Reserva;
 import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
-import com.hotelclover.hotelclover.Models.Clientes;
+import com.hotelclover.hotelclover.Models.Usuario;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
@@ -42,7 +42,7 @@ public class ReservaMapper {
 
         // Crear DTO de cliente
         ReservaResponseDto.ClienteDto clienteDto = ReservaResponseDto.ClienteDto.builder()
-                .id(reserva.getCliente().getIdCliente())
+                .id(reserva.getCliente().getId())
                 .nombre(reserva.getCliente().getNombre())
                 .apellido(reserva.getCliente().getApellido())
                 .email(reserva.getCliente().getEmail())
@@ -65,7 +65,7 @@ public class ReservaMapper {
      * Convierte un ReservaRequestDto a una entidad Reserva
      * Usa el patrón Builder para crear la entidad
      */
-    public Reserva toEntity(ReservaRequestDto dto, CategoriaHabitacion categoria, Clientes cliente) {
+    public Reserva toEntity(ReservaRequestDto dto, CategoriaHabitacion categoria, Usuario cliente) {
         if (dto == null) {
             return null;
         }
@@ -83,7 +83,7 @@ public class ReservaMapper {
      * Actualiza una entidad Reserva existente con datos de ReservaRequestDto
      */
     public void updateEntityFromDto(ReservaRequestDto dto, Reserva reserva,
-            CategoriaHabitacion categoria, Clientes cliente) {
+            CategoriaHabitacion categoria, Usuario cliente) {
         if (dto == null || reserva == null) {
             return;
         }

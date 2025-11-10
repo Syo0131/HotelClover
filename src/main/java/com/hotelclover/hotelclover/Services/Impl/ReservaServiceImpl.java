@@ -11,7 +11,7 @@ import com.hotelclover.hotelclover.Exceptions.BadRequestException;
 import com.hotelclover.hotelclover.Exceptions.ResourceNotFoundException;
 import com.hotelclover.hotelclover.Mappers.ReservaMapper;
 import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
-import com.hotelclover.hotelclover.Models.Clientes;
+import com.hotelclover.hotelclover.Models.Usuario;
 import com.hotelclover.hotelclover.Models.Reserva;
 import com.hotelclover.hotelclover.Repositories.CategoriaHabitacionRepository;
 import com.hotelclover.hotelclover.Repositories.ClientesRepository;
@@ -44,7 +44,7 @@ public class ReservaServiceImpl implements ReservaService {
         validarFechas(reservaDto.getFechaEntrada(), reservaDto.getFechaSalida());
 
         // Buscar cliente
-        Clientes cliente = clientesRepository.findById(reservaDto.getIdCliente())
+        Usuario cliente = clientesRepository.findById(reservaDto.getIdCliente())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Cliente", "id", reservaDto.getIdCliente()));
 
@@ -94,7 +94,7 @@ public class ReservaServiceImpl implements ReservaService {
                 .orElseThrow(() -> new ResourceNotFoundException("Reserva", "id", id));
 
         // Buscar cliente
-        Clientes cliente = clientesRepository.findById(reservaDto.getIdCliente())
+        Usuario cliente = clientesRepository.findById(reservaDto.getIdCliente())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Cliente", "id", reservaDto.getIdCliente()));
 

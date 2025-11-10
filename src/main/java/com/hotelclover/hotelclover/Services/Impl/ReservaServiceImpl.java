@@ -14,7 +14,7 @@ import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
 import com.hotelclover.hotelclover.Models.Usuario;
 import com.hotelclover.hotelclover.Models.Reserva;
 import com.hotelclover.hotelclover.Repositories.CategoriaHabitacionRepository;
-import com.hotelclover.hotelclover.Repositories.ClientesRepository;
+import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 import com.hotelclover.hotelclover.Repositories.ReservaRepository;
 import com.hotelclover.hotelclover.Services.ReservaService;
 
@@ -133,7 +133,7 @@ public class ReservaServiceImpl implements ReservaService {
             throw new ResourceNotFoundException("Cliente", "id", idCliente);
         }
 
-        return reservaRepository.findByClienteIdCliente(idCliente).stream()
+        return reservaRepository.findByCliente_Id(idCliente).stream()
                 .map(reservaMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
@@ -148,7 +148,7 @@ public class ReservaServiceImpl implements ReservaService {
             throw new ResourceNotFoundException("CategoriaHabitacion", "id", idCategoria);
         }
 
-        return reservaRepository.findByCategoriaHabitacionId(idCategoria).stream()
+        return reservaRepository.findByCategoriaHabitacion_IdCategoriaHabitacion(idCategoria).stream()
                 .map(reservaMapper::toResponseDto)
                 .collect(Collectors.toList());
     }

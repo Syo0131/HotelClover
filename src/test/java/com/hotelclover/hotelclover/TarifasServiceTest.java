@@ -8,17 +8,18 @@ import com.hotelclover.hotelclover.Services.MGestionDeTarifas.TarifasService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
 class TarifasServiceTest {
 
     @Mock
@@ -34,6 +35,7 @@ class TarifasServiceTest {
 
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.openMocks(this);
         CategoriaHabitacion categoria = new CategoriaHabitacion();
         categoria.setIdCategoriaHabitacion(1L);
         categoria.setNombre("Suite");

@@ -29,11 +29,12 @@ public class SecurityConfig {
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/api/clientes/registro-cliente-form",
                                 "/api/clientes/registro-cliente")
                         .permitAll()
+                        .requestMatchers("/tarifas/crear").hasAnyAuthority("ADMINISTRADOR", "RECEPCIONISTA")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/api/clientes/login")
                         .loginProcessingUrl("/api/clientes/login")
-                        .successHandler(customSuccessHandler(clientesRepository)) 
+                        .successHandler(customSuccessHandler(clientesRepository))
                         .failureUrl("/api/clientes/login?error=true")
                         .permitAll())
                 .logout(logout -> logout

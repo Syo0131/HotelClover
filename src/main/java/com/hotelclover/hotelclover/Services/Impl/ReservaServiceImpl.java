@@ -148,7 +148,7 @@ public class ReservaServiceImpl implements ReservaService {
             throw new ResourceNotFoundException("CategoriaHabitacion", "id", idCategoria);
         }
 
-        return reservaRepository.findByCategoriaHabitacion_Id(idCategoria).stream()
+        return reservaRepository.findByCategoriaHabitacion_IdCategoriaHabitacion(idCategoria).stream()
                 .map(reservaMapper::toResponseDto)
                 .collect(Collectors.toList());
     }

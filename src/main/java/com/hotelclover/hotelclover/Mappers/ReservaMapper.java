@@ -35,7 +35,7 @@ public class ReservaMapper {
 
         // Crear DTO de categoría de habitación
         ReservaResponseDto.CategoriaHabitacionDto categoriaDto = ReservaResponseDto.CategoriaHabitacionDto.builder()
-                .id(reserva.getCategoriaHabitacion().getId())
+                .id(reserva.getCategoriaHabitacion().getIdCategoriaHabitacion())
                 .nombre(reserva.getCategoriaHabitacion().getNombre())
                 .descripcion(reserva.getCategoriaHabitacion().getDescripcion())
                 .build();

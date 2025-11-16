@@ -8,9 +8,9 @@ import com.hotelclover.hotelclover.Models.Tarifa;
 import java.util.List;
 
 @Repository
-    public interface TarifasRepository extends CrudRepository<Tarifa, Long> {
+public interface TarifasRepository extends CrudRepository<Tarifa, Long> {
 
-    List<Tarifa> findByCategoriaHabitacion(String categoriaHabitacion);
+    List<Tarifa> findByCategoriaHabitacion_Nombre(String nombre);
 
     List<Tarifa> findByTemporada(String temporada);
 

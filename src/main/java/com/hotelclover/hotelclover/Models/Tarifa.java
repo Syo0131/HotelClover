@@ -18,12 +18,12 @@ public class Tarifa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id_tarifa")
     private Long id;
 
-    @NotBlank(message = "La categoría de habitación es obligatoria")
-    @Column(name = "categoria_habitacion", nullable = false, length = 100)
-    private String categoriaHabitacion;
+    @ManyToOne
+    @JoinColumn(name = "id_categoria_habitacion")
+    private CategoriaHabitacion categoriaHabitacion;
 
     @DecimalMin(value = "0.0", inclusive = true, message = "El precio no puede ser menor que 0")
     @Digits(integer = 10, fraction = 2, message = "El precio debe tener hasta 10 dígitos y 2 decimales")

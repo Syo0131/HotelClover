@@ -25,6 +25,6 @@ public class ClienteDetailsService implements UserDetailsService {
         return new User(
                 cliente.getEmail(),
                 cliente.getContrasena(),
-                List.of(new SimpleGrantedAuthority("CLIENTE")));
+                List.of(new SimpleGrantedAuthority(cliente.getTipoUsuario().name())));
     }
 }

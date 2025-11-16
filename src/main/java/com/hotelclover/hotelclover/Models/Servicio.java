@@ -4,31 +4,53 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "Servicios")
+@Table(name = "servicios", schema = "gestion_servicios")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Servicio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idServicio")
     private Long idServicio;
 
     @NotBlank(message = "El nombre del servicio es obligatorio")
-    @Column(name = "Nombre", nullable = false)
+    @Size(min = 3, max = 100)
+    @Column(name = "nombre", nullable = false, unique = true, length = 100)
     private String nombre;
 
-    @Column(name = "Estado", nullable = false)
-    private boolean activo;
+    @Column(name = "estado", nullable = false)
+    private boolean estado = true;
 
-    @NotNull(message = "El precio base es obligatorio")
-    @Positive(message = "El precio debe ser mayor a 0")
-    @Column(name = "Precio_base", nullable = false)
-    private Double precioBase;
+    @NotNull
+    @DecimalMin(value = "0.01")
+    @Column(name = "precio_base", nullable = false, precision = 10, scale = 2)
+    private BigDecimal precioBase;
 
-    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL)
-    private List<ServicioCategoria> categoriasAsociadas;
+
+
+    @Size(max = 500)
+    @Column(name = "descripcion", length = 500)
+    private String descripcion;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_servicio", nullable = false, length = 20)
+    private TipoServicio tipoServicio;
+
+    @Column(name = "fecha_creacion", updatable = false)
+    private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_actualizacion")
+    private LocalDateTime fechaActualizacion;
+
+    @OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ServicioCategoria> categorias;
 }

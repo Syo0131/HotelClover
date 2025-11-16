@@ -1,99 +1,59 @@
 package com.hotelclover.hotelclover.Services.MGestionDeTarifas;
 
-import com.hotelclover.hotelclover.Dtos.TarifasDTO;
+import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
 import com.hotelclover.hotelclover.Models.Tarifa;
-import com.hotelclover.hotelclover.Models.TipoUsuario;
+import com.hotelclover.hotelclover.Repositories.CategoriaHabitacionRepository;
 import com.hotelclover.hotelclover.Repositories.MGestionDeTarifas.TarifasRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
 public class TarifasService {
 
     private final TarifasRepository tarifasRepository;
+    private final CategoriaHabitacionRepository categoriaHabitacionRepository;
 
-    public Tarifa createRate(TarifasDTO dto, TipoUsuario userType) {
-        if (userType != TipoUsuario.ADMINISTRADOR) {
-            throw new SecurityException("Access denied: only administrators can create rates.");
-        }
-
-        Tarifa rate = new Tarifa();
-        rate.setCategoriaHabitacion(dto.getCategoriaHabitacion());
-        rate.setPrecio(dto.getPrecio());
-        rate.setMoneda(dto.getMoneda());
-        rate.setImpuesto(dto.getImpuesto());
-        rate.setNumeroNoches(dto.getNumeroNoches());
-        rate.setTemporada(dto.getTemporada());
-        rate.setEstadoTarifa(dto.getEstadoTarifa());
-        rate.setFechaCreacion(LocalDateTime.now());
-
-        return tarifasRepository.save(rate);
+    public List<Tarifa> getAllTarifas() {
+        return (List<Tarifa>) tarifasRepository.findAll();
     }
 
-    public Tarifa updateRate(Long id, TarifasDTO dto, TipoUsuario userType) {
-        if (userType != TipoUsuario.ADMINISTRADOR) {
-            throw new SecurityException("Access denied: only administrators can update rates.");
-        }
-
-        Tarifa rate = tarifasRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Rate not found"));
-
-        rate.setCategoriaHabitacion(dto.getCategoriaHabitacion());
-        rate.setPrecio(dto.getPrecio());
-        rate.setMoneda(dto.getMoneda());
-        rate.setImpuesto(dto.getImpuesto());
-        rate.setNumeroNoches(dto.getNumeroNoches());
-        rate.setTemporada(dto.getTemporada());
-        rate.setEstadoTarifa(dto.getEstadoTarifa());
-
-        return tarifasRepository.save(rate);
+    public Tarifa obtenerPorId(Long id) {
+        return tarifasRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Tarifa no encontrada con ID: " + id));
     }
 
-    public Optional<Tarifa> getRateById(Long id) {
-        return tarifasRepository.findById(id);
+    public Tarifa saveTarifa(Tarifa tarifa) {
+        tarifa.setFechaCreacion(LocalDateTime.now());
+        Long idCategoria = tarifa.getCategoriaHabitacion().getIdCategoriaHabitacion();
+        CategoriaHabitacion categoria = categoriaHabitacionRepository.findById(idCategoria)
+                .orElseThrow(() -> new IllegalArgumentException("Categoría no encontrada con ID: " + idCategoria));
+        tarifa.setCategoriaHabitacion(categoria);
+
+        return tarifasRepository.save(tarifa);
     }
 
-    public List<Tarifa> getRatesByCategory(String category) {
-        return tarifasRepository.findByCategoriaHabitacion(category);
+    public Tarifa actualizarTarifa(Long id, Tarifa tarifaActualizada) {
+        Tarifa existente = obtenerPorId(id);
+
+        existente.setPrecio(tarifaActualizada.getPrecio());
+        existente.setImpuesto(tarifaActualizada.getImpuesto());
+        existente.setMoneda(tarifaActualizada.getMoneda());
+        existente.setNumeroNoches(tarifaActualizada.getNumeroNoches());
+        existente.setTemporada(tarifaActualizada.getTemporada());
+        existente.setEstadoTarifa(tarifaActualizada.getEstadoTarifa());
+
+        return tarifasRepository.save(existente);
     }
 
-    public List<Tarifa> getRatesBySeason(String season) {
-        return tarifasRepository.findByTemporada(season);
+    public void deleteTarifa(Long id) {
+        tarifasRepository.deleteById(id);
     }
 
-    public List<Tarifa> getRatesByStatus(String status) {
-        return tarifasRepository.findByEstadoTarifa(status);
-    }
-
-    public List<Tarifa> getRatesByNumberOfNights(Integer nights) {
-        return tarifasRepository.findByNumeroNoches(nights);
-    }
-
-    public List<Tarifa> generateRateReport(
-            TipoUsuario userType,
-            String roomCategory,
-            String season,
-            LocalDate startDate,
-            LocalDate endDate) {
-        if (userType != TipoUsuario.ADMINISTRADOR && userType != TipoUsuario.AUDITOR) {
-            throw new SecurityException("Access denied: only administrators or auditors can generate reports.");
-        }
-
-        Iterable<Tarifa> ratesIterable = tarifasRepository.findAll();
-
-        return StreamSupport.stream(ratesIterable.spliterator(), false)
-                .filter(rate -> (roomCategory == null || rate.getCategoriaHabitacion().equalsIgnoreCase(roomCategory)) &&
-                                (season == null || rate.getTemporada().equalsIgnoreCase(season)) &&
-                                (startDate == null || !rate.getFechaCreacion().toLocalDate().isBefore(startDate)) &&
-                                (endDate == null || !rate.getFechaCreacion().toLocalDate().isAfter(endDate)))
-                .collect(Collectors.toList());
+    public List<CategoriaHabitacion> getAllCategorias() {
+        return categoriaHabitacionRepository.findAll();
     }
 }

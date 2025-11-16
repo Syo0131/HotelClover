@@ -92,6 +92,6 @@ public class ClientesController {
             return "update";
         }
 
-        return "redirect:/api/clientes/login";
+        return "redirect:/dashboard";
     }
 }

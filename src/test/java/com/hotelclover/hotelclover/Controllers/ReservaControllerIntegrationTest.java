@@ -3,9 +3,10 @@ package com.hotelclover.hotelclover.Controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hotelclover.hotelclover.Dtos.ReservaRequestDto;
 import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
-import com.hotelclover.hotelclover.Models.Clientes;
+import com.hotelclover.hotelclover.Models.TipoUsuario;
+import com.hotelclover.hotelclover.Models.Usuario;
 import com.hotelclover.hotelclover.Repositories.CategoriaHabitacionRepository;
-import com.hotelclover.hotelclover.Repositories.ClientesRepository;
+import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 import com.hotelclover.hotelclover.Repositories.ReservaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +29,9 @@ import static org.hamcrest.Matchers.*;
  * Pruebas de integración para el ReservaController
  */
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @Transactional
+@ActiveProfiles("test")
 class ReservaControllerIntegrationTest {
 
         @Autowired
@@ -46,7 +49,7 @@ class ReservaControllerIntegrationTest {
         @Autowired
         private CategoriaHabitacionRepository categoriaRepository;
 
-        private Clientes clienteTest;
+        private Usuario clienteTest;
         private CategoriaHabitacion categoriaTest;
 
         @BeforeEach
@@ -55,13 +58,15 @@ class ReservaControllerIntegrationTest {
                 reservaRepository.deleteAll();
 
                 // Crear cliente de prueba
-                clienteTest = new Clientes();
+                clienteTest = new Usuario();
                 clienteTest.setNombre("Juan");
                 clienteTest.setApellido("Pérez");
                 clienteTest.setEmail("juan.test@example.com");
                 clienteTest.setContrasena("Password123!");
                 clienteTest.setTelefono("1234567890");
+                clienteTest.setDireccion("Calle Falsa 123");
                 clienteTest.setFechaNacimiento(LocalDate.of(1990, 1, 1));
+                clienteTest.setTipoUsuario(TipoUsuario.CLIENTE);
                 clienteTest = clientesRepository.save(clienteTest);
 
                 // Crear categoría de prueba
@@ -80,7 +85,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaSalida(LocalDate.now().plusDays(10))
                                 .numeroDeHuespedes(2)
                                 .idCategoriaHabitacion(categoriaTest.getId())
-                                .idCliente(clienteTest.getIdCliente())
+                                .idCliente(clienteTest.getId())
                                 .build();
 
                 // When & Then
@@ -96,6 +101,7 @@ class ReservaControllerIntegrationTest {
                                 .andExpect(jsonPath("$.diasEstancia").value(5));
         }
 
+        ////////////////
         @Test
         @DisplayName("Debe fallar al crear reserva con fechas inválidas")
         void debeFallarConFechasInvalidas() throws Exception {
@@ -105,7 +111,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaSalida(LocalDate.now().plusDays(5))
                                 .numeroDeHuespedes(2)
                                 .idCategoriaHabitacion(categoriaTest.getId())
-                                .idCliente(clienteTest.getIdCliente())
+                                .idCliente(clienteTest.getId())
                                 .build();
 
                 // When & Then
@@ -145,7 +151,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaSalida(LocalDate.now().plusDays(10))
                                 .numeroDeHuespedes(2)
                                 .idCategoriaHabitacion(categoriaTest.getId())
-                                .idCliente(clienteTest.getIdCliente())
+                                .idCliente(clienteTest.getId())
                                 .build();
 
                 mockMvc.perform(post("/api/reservas")
@@ -167,7 +173,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaSalida(LocalDate.now().plusDays(10))
                                 .numeroDeHuespedes(2)
                                 .idCategoriaHabitacion(categoriaTest.getId())
-                                .idCliente(clienteTest.getIdCliente())
+                                .idCliente(clienteTest.getId())
                                 .build();
 
                 String responseContent = mockMvc.perform(post("/api/reservas")
@@ -195,7 +201,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaSalida(LocalDate.now().plusDays(10))
                                 .numeroDeHuespedes(2)
                                 .idCategoriaHabitacion(categoriaTest.getId())
-                                .idCliente(clienteTest.getIdCliente())
+                                .idCliente(clienteTest.getId())
                                 .build();
 
                 String responseContent = mockMvc.perform(post("/api/reservas")
@@ -213,7 +219,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaSalida(LocalDate.now().plusDays(11))
                                 .numeroDeHuespedes(3)
                                 .idCategoriaHabitacion(categoriaTest.getId())
-                                .idCliente(clienteTest.getIdCliente())
+                                .idCliente(clienteTest.getId())
                                 .build();
 
                 // When & Then
@@ -233,7 +239,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaSalida(LocalDate.now().plusDays(10))
                                 .numeroDeHuespedes(2)
                                 .idCategoriaHabitacion(categoriaTest.getId())
-                                .idCliente(clienteTest.getIdCliente())
+                                .idCliente(clienteTest.getId())
                                 .build();
 
                 String responseContent = mockMvc.perform(post("/api/reservas")
@@ -263,7 +269,7 @@ class ReservaControllerIntegrationTest {
                                 .fechaSalida(LocalDate.now().plusDays(10))
                                 .numeroDeHuespedes(2)
                                 .idCategoriaHabitacion(categoriaTest.getId())
-                                .idCliente(clienteTest.getIdCliente())
+                                .idCliente(clienteTest.getId())
                                 .build();
 
                 mockMvc.perform(post("/api/reservas")
@@ -271,7 +277,7 @@ class ReservaControllerIntegrationTest {
                                 .content(objectMapper.writeValueAsString(reservaDto)));
 
                 // When & Then
-                mockMvc.perform(get("/api/reservas/cliente/" + clienteTest.getIdCliente()))
+                mockMvc.perform(get("/api/reservas/cliente/" + clienteTest.getId()))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
                                 .andExpect(jsonPath("$[0].cliente.nombre").value("Juan"))

@@ -11,10 +11,10 @@ import com.hotelclover.hotelclover.Exceptions.BadRequestException;
 import com.hotelclover.hotelclover.Exceptions.ResourceNotFoundException;
 import com.hotelclover.hotelclover.Mappers.ReservaMapper;
 import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
-import com.hotelclover.hotelclover.Models.Clientes;
+import com.hotelclover.hotelclover.Models.Usuario;
 import com.hotelclover.hotelclover.Models.Reserva;
 import com.hotelclover.hotelclover.Repositories.CategoriaHabitacionRepository;
-import com.hotelclover.hotelclover.Repositories.ClientesRepository;
+import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 import com.hotelclover.hotelclover.Repositories.ReservaRepository;
 import com.hotelclover.hotelclover.Services.ReservaService;
 
@@ -44,7 +44,7 @@ public class ReservaServiceImpl implements ReservaService {
         validarFechas(reservaDto.getFechaEntrada(), reservaDto.getFechaSalida());
 
         // Buscar cliente
-        Clientes cliente = clientesRepository.findById(reservaDto.getIdCliente())
+        Usuario cliente = clientesRepository.findById(reservaDto.getIdCliente())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Cliente", "id", reservaDto.getIdCliente()));
 
@@ -94,7 +94,7 @@ public class ReservaServiceImpl implements ReservaService {
                 .orElseThrow(() -> new ResourceNotFoundException("Reserva", "id", id));
 
         // Buscar cliente
-        Clientes cliente = clientesRepository.findById(reservaDto.getIdCliente())
+        Usuario cliente = clientesRepository.findById(reservaDto.getIdCliente())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Cliente", "id", reservaDto.getIdCliente()));
 
@@ -133,7 +133,7 @@ public class ReservaServiceImpl implements ReservaService {
             throw new ResourceNotFoundException("Cliente", "id", idCliente);
         }
 
-        return reservaRepository.findByClienteIdCliente(idCliente).stream()
+        return reservaRepository.findByCliente_Id(idCliente).stream()
                 .map(reservaMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
@@ -148,7 +148,7 @@ public class ReservaServiceImpl implements ReservaService {
             throw new ResourceNotFoundException("CategoriaHabitacion", "id", idCategoria);
         }
 
-        return reservaRepository.findByCategoriaHabitacionId(idCategoria).stream()
+        return reservaRepository.findByCategoriaHabitacion_Id(idCategoria).stream()
                 .map(reservaMapper::toResponseDto)
                 .collect(Collectors.toList());
     }

@@ -13,7 +13,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     // Métodos de búsqueda personalizados
     List<Reserva> findByCliente_Id(Long id);
 
-    List<Reserva> findByCategoriaHabitacion_IdCategoriaHabitacion(Long idCategoria);
+List<Reserva> findByCategoriaHabitacion_IdCategoriaHabitacion(Long idCategoriaHabitacion);
 
     List<Reserva> findByEntryDateBetween(Date startDate, Date endDate);
 }

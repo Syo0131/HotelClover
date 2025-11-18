@@ -12,7 +12,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
     List<Reserva> findByCliente_IdCliente(Long idCliente);
 
-    List<Reserva> findByCategoriaHabitacion_IdCategoriaHabitacion(Long idCategoria);
+List<Reserva> findByCategoriaHabitacion_IdCategoriaHabitacion(Long idCategoriaHabitacion);
 
     List<Reserva> findByEntryDateBetween(Date startDate, Date endDate);
 }

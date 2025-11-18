@@ -2,9 +2,9 @@ package com.hotelclover.hotelclover;
 
 import com.hotelclover.hotelclover.Models.Tarifa;
 import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
-import com.hotelclover.hotelclover.Repositories.MGestionDeTarifas.TarifasRepository;
 import com.hotelclover.hotelclover.Repositories.CategoriaHabitacionRepository;
-import com.hotelclover.hotelclover.Services.MGestionDeTarifas.TarifasService;
+import com.hotelclover.hotelclover.Repositories.TarifasRepository;
+import com.hotelclover.hotelclover.Services.TarifasService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

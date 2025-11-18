@@ -1,9 +1,10 @@
-package com.hotelclover.hotelclover.Services.MGestionDeTarifas;
+package com.hotelclover.hotelclover.Services;
 
 import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
 import com.hotelclover.hotelclover.Models.Tarifa;
 import com.hotelclover.hotelclover.Repositories.CategoriaHabitacionRepository;
-import com.hotelclover.hotelclover.Repositories.MGestionDeTarifas.TarifasRepository;
+import com.hotelclover.hotelclover.Repositories.TarifasRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

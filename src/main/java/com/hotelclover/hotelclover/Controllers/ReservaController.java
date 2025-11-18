@@ -74,7 +74,6 @@ public class ReservaController {
         return ResponseEntity.ok(reservas);
     }
 
-
     @GetMapping("/categoria/{idCategoria}")
     public ResponseEntity<List<ReservaResponseDto>> obtenerReservasPorCategoria(
             @PathVariable Long idCategoria) {
@@ -84,3 +83,4 @@ public class ReservaController {
         return ResponseEntity.ok(reservas);
     }
 }
+

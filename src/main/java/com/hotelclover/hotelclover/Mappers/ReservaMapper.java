@@ -4,7 +4,7 @@ import com.hotelclover.hotelclover.Dtos.ReservaRequestDto;
 import com.hotelclover.hotelclover.Dtos.ReservaResponseDto;
 import com.hotelclover.hotelclover.Models.Reserva;
 import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
-import com.hotelclover.hotelclover.Models.Clientes;
+import com.hotelclover.hotelclover.Models.Usuario;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
@@ -28,14 +28,14 @@ public class ReservaMapper {
 
         // Crear DTO de categoría de habitación
         ReservaResponseDto.CategoriaHabitacionDto categoriaDto = ReservaResponseDto.CategoriaHabitacionDto.builder()
-                .id(reserva.getCategoriaHabitacion().getId())
+                .id(reserva.getCategoriaHabitacion().getIdCategoriaHabitacion())
                 .nombre(reserva.getCategoriaHabitacion().getNombre())
                 .descripcion(reserva.getCategoriaHabitacion().getDescripcion())
                 .build();
 
         // Crear DTO de cliente
         ReservaResponseDto.ClienteDto clienteDto = ReservaResponseDto.ClienteDto.builder()
-                .id(reserva.getCliente().getIdCliente())
+                .id(reserva.getCliente().getId())
                 .nombre(reserva.getCliente().getNombre())
                 .apellido(reserva.getCliente().getApellido())
                 .email(reserva.getCliente().getEmail())
@@ -54,7 +54,7 @@ public class ReservaMapper {
                 .build();
     }
 
-    public Reserva toEntity(ReservaRequestDto dto, CategoriaHabitacion categoria, Clientes cliente) {
+    public Reserva toEntity(ReservaRequestDto dto, CategoriaHabitacion categoria, Usuario cliente) {
         if (dto == null) {
             return null;
         }
@@ -69,7 +69,7 @@ public class ReservaMapper {
     }
 
     public void updateEntityFromDto(ReservaRequestDto dto, Reserva reserva,
-            CategoriaHabitacion categoria, Clientes cliente) {
+            CategoriaHabitacion categoria, Usuario cliente) {
         if (dto == null || reserva == null) {
             return;
         }

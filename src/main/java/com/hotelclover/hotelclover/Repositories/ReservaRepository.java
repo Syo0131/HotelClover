@@ -10,9 +10,9 @@ import java.util.List;
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
-    List<Reserva> findByClienteIdCliente(Long idCliente);
+    List<Reserva> findByCliente_IdCliente(Long idCliente);
 
-    List<Reserva> findByCategoriaHabitacionId(Long idCategoria);
+    List<Reserva> findByCategoriaHabitacion_IdCategoriaHabitacion(Long idCategoria);
 
     List<Reserva> findByEntryDateBetween(Date startDate, Date endDate);
 }

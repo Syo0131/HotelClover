@@ -3,8 +3,8 @@ package com.hotelclover.hotelclover.Controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hotelclover.hotelclover.Dtos.ReservaRequestDto;
 import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
-import com.hotelclover.hotelclover.Models.TipoUsuario;
-import com.hotelclover.hotelclover.Models.Usuario;
+import com.hotelclover.hotelclover.Models.TipoClientes;
+import com.hotelclover.hotelclover.Models.Clientes;
 import com.hotelclover.hotelclover.Repositories.CategoriaHabitacionRepository;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 import com.hotelclover.hotelclover.Repositories.ReservaRepository;
@@ -50,7 +50,7 @@ class ReservaControllerIntegrationTest {
         @Autowired
         private CategoriaHabitacionRepository categoriaRepository;
 
-        private Usuario clienteTest;
+        private Clientes clienteTest;
         private CategoriaHabitacion categoriaTest;
 
         @BeforeEach
@@ -59,7 +59,7 @@ class ReservaControllerIntegrationTest {
                 reservaRepository.deleteAll();
 
                 // Crear cliente de prueba
-                clienteTest = new Usuario();
+                clienteTest = new Clientes();
                 clienteTest.setNombre("Juan");
                 clienteTest.setApellido("Pérez");
                 clienteTest.setEmail("juan.test@example.com");
@@ -67,7 +67,7 @@ class ReservaControllerIntegrationTest {
                 clienteTest.setTelefono("1234567890");
                 clienteTest.setDireccion("Calle Falsa 123");
                 clienteTest.setFechaNacimiento(LocalDate.of(1990, 1, 1));
-                clienteTest.setTipoUsuario(TipoUsuario.CLIENTE);
+                clienteTest.setTipoUsuario(TipoClientes.CLIENTE);
                 clienteTest = clientesRepository.save(clienteTest);
 
                 // Crear categoría de prueba

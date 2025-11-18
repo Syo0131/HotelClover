@@ -1,7 +1,7 @@
 package com.hotelclover.hotelclover.Controllers.MGestionDeClientes;
 
 import com.hotelclover.hotelclover.Dtos.UsuarioDTO;
-import com.hotelclover.hotelclover.Models.Usuario;
+import com.hotelclover.hotelclover.Models.Clientes;
 import com.hotelclover.hotelclover.Services.MGestionDeClientes.ClientesService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +43,13 @@ public class ClientesController {
 
     @PutMapping("/{id}")
     @ResponseBody
-    public Usuario updateClient(@PathVariable Long id, @Valid @RequestBody UsuarioDTO dto) {
+    public Clientes updateClient(@PathVariable Long id, @Valid @RequestBody UsuarioDTO dto) {
         return clientService.updateClient(id, dto);
     }
 
     @GetMapping("/{id:\\d+}")
     @ResponseBody
-    public Usuario getClient(@PathVariable Long id) {
+    public Clientes getClient(@PathVariable Long id) {
         return clientService.getClientById(id);
     }
 
@@ -61,7 +61,7 @@ public class ClientesController {
 
     @GetMapping("/update/{id}")
     public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
-        Usuario cliente = clientService.getClientById(id);
+        Clientes cliente = clientService.getClientById(id);
 
         UsuarioDTO dto = new UsuarioDTO();
         dto.setId(cliente.getId());

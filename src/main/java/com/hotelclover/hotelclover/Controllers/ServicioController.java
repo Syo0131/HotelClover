@@ -24,10 +24,9 @@ public class ServicioController {
     @Autowired
     private ServicioService servicioService;
 
-    // =====================================================
-    // 🟢 SECCIÓN THYMELEAF (VISTAS HTML)
-    // =====================================================
-
+ 
+    // SECCIÓN THYMELEAF (VISTAS HTML)
+ 
     /** Muestra el formulario de registro de un nuevo servicio */
     @GetMapping("/nuevo")
     public String mostrarFormularioRegistro(Model model) {
@@ -93,9 +92,8 @@ public class ServicioController {
         return "redirect:/api/servicios/lista";
     }
 
-    // =====================================================
     // 🔵 SECCIÓN REST API (RESPUESTAS JSON)
-    // =====================================================
+
 
     /** Obtiene un servicio por ID */
     @GetMapping("/{id}")

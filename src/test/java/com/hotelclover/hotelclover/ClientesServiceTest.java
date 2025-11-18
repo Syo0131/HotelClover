@@ -1,8 +1,8 @@
 package com.hotelclover.hotelclover;
 
 import com.hotelclover.hotelclover.Dtos.UsuarioDTO;
-import com.hotelclover.hotelclover.Models.TipoUsuario;
-import com.hotelclover.hotelclover.Models.Usuario;
+import com.hotelclover.hotelclover.Models.TipoClientes;
+import com.hotelclover.hotelclover.Models.Clientes;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 import com.hotelclover.hotelclover.Services.MGestionDeClientes.ClientesService;
 
@@ -48,11 +48,11 @@ class ClientesServiceTest {
         when(passwordEncoder.encode("123456")).thenReturn("encoded123");
         when(clientesRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
-        Usuario result = clientesService.registerClient(dto);
+        Clientes result = clientesService.registerClient(dto);
 
         assertEquals("Ana", result.getNombre());
         assertEquals("encoded123", result.getContrasena());
-        assertEquals(TipoUsuario.CLIENTE, result.getTipoUsuario());
+        assertEquals(TipoClientes.CLIENTE, result.getTipoUsuario());
     }
 
     @Test
@@ -70,7 +70,7 @@ class ClientesServiceTest {
 
     @Test
     void testValidarEmailDuplicadoThrowsException() {
-        Usuario existing = new Usuario();
+        Clientes existing = new Clientes();
         existing.setId(1L);
         existing.setEmail("ana@example.com");
 
@@ -85,7 +85,7 @@ class ClientesServiceTest {
 
     @Test
     void testUpdateClientSuccess() {
-        Usuario original = new Usuario();
+        Clientes original = new Clientes();
         original.setId(1L);
         original.setEmail("old@example.com");
         original.setContrasena("oldpass");
@@ -98,7 +98,7 @@ class ClientesServiceTest {
         when(passwordEncoder.encode("newpass")).thenReturn("encodedNew");
         when(clientesRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
-        Usuario updated = clientesService.updateClient(1L, dto);
+        Clientes updated = clientesService.updateClient(1L, dto);
 
         assertEquals("new@example.com", updated.getEmail());
         assertEquals("encodedNew", updated.getContrasena());

@@ -1,7 +1,7 @@
 package com.hotelclover.hotelclover.Controllers;
 
-import com.hotelclover.hotelclover.Models.TipoUsuario;
-import com.hotelclover.hotelclover.Models.Usuario;
+import com.hotelclover.hotelclover.Models.TipoClientes;
+import com.hotelclover.hotelclover.Models.Clientes;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -14,12 +14,12 @@ public class DashboardController {
 
     @GetMapping("/dashboard")
     public String mostrarDashboard(HttpSession session, Model model) {
-        Usuario cliente = (Usuario) session.getAttribute("cliente");
+        Clientes cliente = (Clientes) session.getAttribute("cliente");
 
         if (cliente == null) {
             return "redirect:/api/clientes/login";
         }
-        if (cliente.getTipoUsuario() != TipoUsuario.CLIENTE) {
+        if (cliente.getTipoUsuario() != TipoClientes.CLIENTE) {
             return "redirect:/dashboardAdministrativo";
         }
         model.addAttribute("cliente", cliente);
@@ -28,12 +28,12 @@ public class DashboardController {
 
     @GetMapping("/dashboardAdministrativo")
     public String mostrarDashboardAdminRecepcionista(HttpSession session, Model model) {
-        Usuario cliente = (Usuario) session.getAttribute("cliente");
+        Clientes cliente = (Clientes) session.getAttribute("cliente");
         if (cliente == null) {
             return "redirect:/api/clientes/login";
         }
-        if (cliente.getTipoUsuario() != TipoUsuario.ADMINISTRADOR &&
-                cliente.getTipoUsuario() != TipoUsuario.RECEPCIONISTA) {
+        if (cliente.getTipoUsuario() != TipoClientes.ADMINISTRADOR &&
+                cliente.getTipoUsuario() != TipoClientes.RECEPCIONISTA) {
             return "redirect:/dashboard";
         }
         model.addAttribute("cliente", cliente);

@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.hotelclover.hotelclover.Models.Usuario;
+import com.hotelclover.hotelclover.Models.Clientes;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -49,7 +49,7 @@ public class SecurityConfig {
     public AuthenticationSuccessHandler customSuccessHandler(ClientesRepository clientesRepository) {
         return (request, response, authentication) -> {
             String email = authentication.getName();
-            Usuario cliente = clientesRepository.findByEmail(email)
+            Clientes cliente = clientesRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
 
             request.getSession().setAttribute("cliente", cliente);

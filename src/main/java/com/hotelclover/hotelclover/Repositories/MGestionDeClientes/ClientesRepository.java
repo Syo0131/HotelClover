@@ -3,18 +3,18 @@ package com.hotelclover.hotelclover.Repositories.MGestionDeClientes;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.hotelclover.hotelclover.Models.Usuario;
+import com.hotelclover.hotelclover.Models.Clientes;
 
 import java.util.Optional;
 
 @Repository
-public interface ClientesRepository extends CrudRepository<Usuario, Long> {
+public interface ClientesRepository extends CrudRepository<Clientes, Long> {
 
-    Optional<Usuario> findByNombre(String nombre);
+    Optional<Clientes> findByNombre(String nombre);
 
-    Optional<Usuario> findByEmail(String email);
+    Optional<Clientes> findByEmail(String email);
 
     boolean existsByEmail(String email);
 
-    Optional<Usuario> findByTelefono(String telefono);
+    Optional<Clientes> findByTelefono(String telefono);
 }

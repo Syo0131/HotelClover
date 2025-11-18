@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Table(name = "usuario")
 @Data
 @NoArgsConstructor
-public class Usuario {
+public class Clientes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,5 +40,5 @@ public class Usuario {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TipoUsuario tipoUsuario;
+    private TipoClientes tipoUsuario;
 }

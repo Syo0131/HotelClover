@@ -2,8 +2,8 @@ package com.hotelclover.hotelclover.Services.MGestionDeClientes;
 
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 import com.hotelclover.hotelclover.Dtos.UsuarioDTO;
-import com.hotelclover.hotelclover.Models.TipoUsuario;
-import com.hotelclover.hotelclover.Models.Usuario;
+import com.hotelclover.hotelclover.Models.TipoClientes;
+import com.hotelclover.hotelclover.Models.Clientes;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,10 +18,10 @@ public class ClientesService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public Usuario registerClient(UsuarioDTO dto) {
+    public Clientes registerClient(UsuarioDTO dto) {
         validarEmailDuplicado(dto.getEmail(), null);
 
-        Usuario client = new Usuario();
+        Clientes client = new Clientes();
         client.setNombre(dto.getNombre());
         client.setApellido(dto.getApellido());
         client.setEmail(dto.getEmail());
@@ -29,7 +29,7 @@ public class ClientesService {
         client.setTelefono(dto.getTelefono());
         client.setFechaNacimiento(dto.getFechaNacimiento());
         client.setDireccion(dto.getDireccion());
-        client.setTipoUsuario(TipoUsuario.CLIENTE);
+        client.setTipoUsuario(TipoClientes.CLIENTE);
 
         if (dto.getContrasena() == null || dto.getContrasena().isBlank()) {
             throw new IllegalArgumentException("La contraseña es obligatoria");
@@ -42,8 +42,8 @@ public class ClientesService {
         return clientesRepository.save(client);
     }
 
-    public Usuario updateClient(Long id, UsuarioDTO dto) {
-        Usuario original = getClientById(id);
+    public Clientes updateClient(Long id, UsuarioDTO dto) {
+        Clientes original = getClientById(id);
 
         validarEmailDuplicado(dto.getEmail(), id);
 
@@ -67,7 +67,7 @@ public class ClientesService {
         return clientesRepository.save(original);
     }
 
-    public Usuario getClientById(Long id) {
+    public Clientes getClientById(Long id) {
         return clientesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
     }
@@ -80,7 +80,7 @@ public class ClientesService {
         });
     }
 
-    public Usuario autenticar(String email, String contrasena) {
+    public Clientes autenticar(String email, String contrasena) {
         return clientesRepository.findByEmail(email)
                 .filter(cliente -> passwordEncoder.matches(contrasena, cliente.getContrasena()))
                 .orElse(null);

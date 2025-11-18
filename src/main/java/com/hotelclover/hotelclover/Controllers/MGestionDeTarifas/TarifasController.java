@@ -2,13 +2,15 @@ package com.hotelclover.hotelclover.Controllers.MGestionDeTarifas;
 
 import com.hotelclover.hotelclover.Models.Tarifa;
 import com.hotelclover.hotelclover.Services.MGestionDeTarifas.TarifasService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -18,17 +20,16 @@ public class TarifasController {
 
     private final TarifasService tarifasService;
 
-    @GetMapping("/crear")
-    public String mostrarFormularioTarifa(Model model) {
-        model.addAttribute("tarifa", new Tarifa());
-        model.addAttribute("categorias", tarifasService.getAllCategorias());
-        return "Tarifa/create";
+    @PostMapping("/create")
+    public ResponseEntity<Tarifa> createRate(@Valid @RequestBody Tarifa tarifa) {
+        Tarifa saved = tarifasService.saveTarifa(tarifa);
+        return ResponseEntity.ok(saved);
     }
 
-    @PostMapping("/crear")
-    public String guardarTarifa(@ModelAttribute("tarifa") @Valid Tarifa tarifa) {
-        tarifasService.saveTarifa(tarifa);
-        return "redirect:/tarifas/gestionar";
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Tarifa> updateRate(@PathVariable Long id, @Valid @RequestBody Tarifa tarifa) {
+        Tarifa updated = tarifasService.actualizarTarifa(id, tarifa);
+        return ResponseEntity.ok(updated);
     }
 
     @GetMapping("/gestionar")
@@ -46,15 +47,14 @@ public class TarifasController {
         return "Tarifa/update";
     }
 
-    @PostMapping("/actualizar/{id}")
-    public String actualizarTarifa(@PathVariable Long id, @ModelAttribute("tarifa") @Valid Tarifa tarifa) {
-        tarifasService.actualizarTarifa(id, tarifa);
-        return "redirect:/tarifas/gestionar";
-    }
+    @GetMapping("/report")
+    public ResponseEntity<List<Tarifa>> generateRateReport(
+            @RequestParam(required = false) String roomCategory,
+            @RequestParam(required = false) String season,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-    @PostMapping("/eliminar/{id}")
-    public String eliminarTarifa(@PathVariable Long id) {
-        tarifasService.deleteTarifa(id);
-        return "redirect:/tarifas/gestionar";
+        List<Tarifa> report = tarifasService.generateRateReport(roomCategory, season, startDate, endDate);
+        return ResponseEntity.ok(report);
     }
 }

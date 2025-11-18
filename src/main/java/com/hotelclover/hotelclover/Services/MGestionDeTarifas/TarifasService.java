@@ -7,8 +7,11 @@ import com.hotelclover.hotelclover.Repositories.MGestionDeTarifas.TarifasReposit
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -28,11 +31,12 @@ public class TarifasService {
 
     public Tarifa saveTarifa(Tarifa tarifa) {
         tarifa.setFechaCreacion(LocalDateTime.now());
-        Long idCategoria = tarifa.getCategoriaHabitacion().getIdCategoriaHabitacion();
-        CategoriaHabitacion categoria = categoriaHabitacionRepository.findById(idCategoria)
-                .orElseThrow(() -> new IllegalArgumentException("Categoría no encontrada con ID: " + idCategoria));
-        tarifa.setCategoriaHabitacion(categoria);
-
+        if (tarifa.getCategoriaHabitacion() != null) {
+            Long idCategoria = tarifa.getCategoriaHabitacion().getIdCategoriaHabitacion();
+            CategoriaHabitacion categoria = categoriaHabitacionRepository.findById(idCategoria)
+                    .orElseThrow(() -> new IllegalArgumentException("Categoría no encontrada con ID: " + idCategoria));
+            tarifa.setCategoriaHabitacion(categoria);
+        }
         return tarifasRepository.save(tarifa);
     }
 
@@ -55,5 +59,26 @@ public class TarifasService {
 
     public List<CategoriaHabitacion> getAllCategorias() {
         return categoriaHabitacionRepository.findAll();
+    }
+
+    /**
+     * Reporte básico: devuelve todas las tarifas o aplica filtros simples.
+     * (Implementación ligera para compilar; ampliar según campos reales de Tarifa)
+     */
+    public List<Tarifa> generateRateReport(String roomCategory, String season, LocalDate startDate, LocalDate endDate) {
+        Iterable<Tarifa> iterable = tarifasRepository.findAll();
+        return StreamSupport.stream(iterable.spliterator(), false)
+                .filter(t -> {
+                    boolean ok = true;
+                    if (roomCategory != null && t.getCategoriaHabitacion() != null) {
+                        ok = ok && roomCategory.equalsIgnoreCase(t.getCategoriaHabitacion().getNombre());
+                    }
+                    if (season != null && t.getTemporada() != null) {
+                        ok = ok && season.equalsIgnoreCase(t.getTemporada());
+                    }
+                    // startDate/endDate filtrado no aplicado explícitamente porque depende de campo fecha en Tarifa
+                    return ok;
+                })
+                .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,6 @@
 package com.hotelclover.hotelclover.Services;
 
-import com.hotelclover.hotelclover.Models.Usuario;
+import com.hotelclover.hotelclover.Models.Clientes;
 import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class ClienteDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         System.out.println("Autenticando cliente: " + email);
 
-        Usuario cliente = clientesRepository.findByEmail(email)
+        Clientes cliente = clientesRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Correo no registrado"));
         return new User(
                 cliente.getEmail(),

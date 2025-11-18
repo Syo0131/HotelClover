@@ -1,6 +1,6 @@
 package com.hotelclover.hotelclover.Models;
 
-public enum TipoUsuario {
+public enum TipoClientes {
     ADMINISTRADOR,
     RECEPCIONISTA,
     AUDITOR,

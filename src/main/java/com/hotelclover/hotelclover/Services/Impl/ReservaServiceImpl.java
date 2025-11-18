@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 public class ReservaServiceImpl implements ReservaService {
 
     private final ReservaRepository reservaRepository;
-    private final ClientesRepository clientesRepository;
+    private final ClientesRepository ClientesRepository;
     private final CategoriaHabitacionRepository categoriaRepository;
     private final ReservaMapper reservaMapper;
 
@@ -42,7 +42,7 @@ public class ReservaServiceImpl implements ReservaService {
         validarFechas(reservaDto.getFechaEntrada(), reservaDto.getFechaSalida());
 
         // Buscar cliente
-        Usuario cliente = clientesRepository.findById(reservaDto.getIdCliente())
+        Usuario cliente = ClientesRepository.findById(reservaDto.getIdCliente())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Cliente", "id", reservaDto.getIdCliente()));
 
@@ -92,7 +92,7 @@ public class ReservaServiceImpl implements ReservaService {
                 .orElseThrow(() -> new ResourceNotFoundException("Reserva", "id", id));
 
         // Buscar cliente
-        Usuario cliente = clientesRepository.findById(reservaDto.getIdCliente())
+        Usuario cliente = ClientesRepository.findById(reservaDto.getIdCliente())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Cliente", "id", reservaDto.getIdCliente()));
 
@@ -127,11 +127,11 @@ public class ReservaServiceImpl implements ReservaService {
         log.info("Obteniendo reservas del cliente con ID: {}", idCliente);
 
         // Verificar que el cliente existe
-        if (!clientesRepository.existsById(idCliente)) {
+        if (!ClientesRepository.existsById(idCliente)) {
             throw new ResourceNotFoundException("Cliente", "id", idCliente);
         }
 
-        return reservaRepository.findByCliente_Id(idCliente).stream()
+        return reservaRepository.findByCliente_IdCliente(idCliente).stream()
                 .map(reservaMapper::toResponseDto)
                 .collect(Collectors.toList());
     }

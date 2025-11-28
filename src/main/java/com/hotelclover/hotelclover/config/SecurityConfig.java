@@ -8,7 +8,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.hotelclover.hotelclover.Models.Usuario;
-import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
+import com.hotelclover.hotelclover.Repositories.ClientesRepository;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

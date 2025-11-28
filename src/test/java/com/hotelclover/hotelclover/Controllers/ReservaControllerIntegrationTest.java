@@ -6,7 +6,7 @@ import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
 import com.hotelclover.hotelclover.Models.TipoUsuario;
 import com.hotelclover.hotelclover.Models.Usuario;
 import com.hotelclover.hotelclover.Repositories.CategoriaHabitacionRepository;
-import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
+import com.hotelclover.hotelclover.Repositories.ClientesRepository;
 import com.hotelclover.hotelclover.Repositories.ReservaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

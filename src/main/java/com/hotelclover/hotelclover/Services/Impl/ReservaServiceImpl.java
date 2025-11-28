@@ -14,7 +14,7 @@ import com.hotelclover.hotelclover.Models.CategoriaHabitacion;
 import com.hotelclover.hotelclover.Models.Usuario;
 import com.hotelclover.hotelclover.Models.Reserva;
 import com.hotelclover.hotelclover.Repositories.CategoriaHabitacionRepository;
-import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
+import com.hotelclover.hotelclover.Repositories.ClientesRepository;
 import com.hotelclover.hotelclover.Repositories.ReservaRepository;
 import com.hotelclover.hotelclover.Services.ReservaService;
 

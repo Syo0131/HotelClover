@@ -1,7 +1,7 @@
-package com.hotelclover.hotelclover.Controllers.MGestionDeTarifas;
+package com.hotelclover.hotelclover.Controllers;
 
 import com.hotelclover.hotelclover.Models.Tarifa;
-import com.hotelclover.hotelclover.Services.MGestionDeTarifas.TarifasService;
+import com.hotelclover.hotelclover.Services.TarifasService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

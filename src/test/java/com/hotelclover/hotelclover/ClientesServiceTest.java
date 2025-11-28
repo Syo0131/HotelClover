@@ -3,8 +3,8 @@ package com.hotelclover.hotelclover;
 import com.hotelclover.hotelclover.Dtos.UsuarioDTO;
 import com.hotelclover.hotelclover.Models.TipoUsuario;
 import com.hotelclover.hotelclover.Models.Usuario;
-import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
-import com.hotelclover.hotelclover.Services.MGestionDeClientes.ClientesService;
+import com.hotelclover.hotelclover.Repositories.ClientesRepository;
+import com.hotelclover.hotelclover.Services.ClientesService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

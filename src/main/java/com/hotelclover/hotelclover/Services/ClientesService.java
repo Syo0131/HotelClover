@@ -1,9 +1,9 @@
-package com.hotelclover.hotelclover.Services.MGestionDeClientes;
+package com.hotelclover.hotelclover.Services;
 
-import com.hotelclover.hotelclover.Repositories.MGestionDeClientes.ClientesRepository;
 import com.hotelclover.hotelclover.Dtos.UsuarioDTO;
 import com.hotelclover.hotelclover.Models.TipoUsuario;
 import com.hotelclover.hotelclover.Models.Usuario;
+import com.hotelclover.hotelclover.Repositories.ClientesRepository;
 
 import lombok.RequiredArgsConstructor;
 

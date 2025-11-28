@@ -1,8 +1,8 @@
-package com.hotelclover.hotelclover.Controllers.MGestionDeClientes;
+package com.hotelclover.hotelclover.Controllers;
 
 import com.hotelclover.hotelclover.Dtos.UsuarioDTO;
 import com.hotelclover.hotelclover.Models.Usuario;
-import com.hotelclover.hotelclover.Services.MGestionDeClientes.ClientesService;
+import com.hotelclover.hotelclover.Services.ClientesService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

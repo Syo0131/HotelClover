@@ -1,17 +1,23 @@
 # Etapa 1: Construcción
-FROM maven:3.9.9-eclipse-temurin-21 AS build
+FROM eclipse-temurin:21-jdk-jammy AS build
+
 WORKDIR /app
 
-# Copiamos el pom.xml y descargamos dependencias
+# Copiamos el archivo pom.xml y los scripts del Maven Wrapper
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
+COPY mvnw .
+COPY .mvn ./.mvn
 
-# Copiamos el código fuente y construimos el JAR
+# Copiamos el resto del proyecto
 COPY src ./src
-RUN mvn clean package -DskipTests
 
-# Etapa 2: Ejecución
-FROM eclipse-temurin:21-jre
+# Construimos la aplicación
+RUN ./mvnw clean package -DskipTests
+
+
+# ETAPA DE EJECUCIÓN
+FROM eclipse-temurin:21-jre-jammy
+
 WORKDIR /app
 
 # Copiamos el JAR generado desde la etapa de build

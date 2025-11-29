@@ -11,6 +11,9 @@ COPY .mvn ./.mvn
 # Copiamos el resto del proyecto
 COPY src ./src
 
+RUN chmod +x mvnw
+RUN ./mvnw clean package -DskipTests
+
 # Construimos la aplicación
 RUN ./mvnw clean package -DskipTests
 
